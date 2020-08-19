@@ -1,7 +1,10 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/update/update"
+    "pages/index/concern",
+    "pages/index/news",
+    "pages/index/update",
+    "pages/index/my"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -11,5 +14,32 @@
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
-  "style": "v2"
+  "style": "v2",
+  "tabBar": {
+    "custom": true,
+    "selectedColor": "#4da9ff", 
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/index/concern",
+        "text": "关注"
+      },
+      {
+        "pagePath": "pages/index/update",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/index/news",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/index/my",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
 }
