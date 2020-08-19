@@ -1,15 +1,13 @@
-// miniprogram/pages/index/index.js
+// miniprogram/pages/index/news.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-   
-    
+
   },
 
-  
   /**
    * 生命周期函数--监听页面加载
    */
@@ -28,9 +26,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log('首页')
-    this.getTabBar().init()
-    
+    console.log('消息')
+    this.getTabBar().init();
   },
 
   /**
@@ -67,7 +64,4 @@ Page({
   onShareAppMessage: function () {
 
   }
-
-  
-
 })

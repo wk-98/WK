@@ -1,4 +1,4 @@
-// pages/update/update.js
+// miniprogram/pages/index/concern.js
 Page({
 
   /**
@@ -26,7 +26,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log('关注')
+    this.getTabBar().init();
   },
 
   /**
