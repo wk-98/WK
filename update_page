@@ -1,0 +1,10 @@
+一、需求：发布文字与图片动态，具体可参考朋友圈
+
+二、功能实现：
+1、文本内容：<textarea>标签，进行了高度自适应，输入字数有限，文字内容直接存储到数据库content字段里
+2、图片文件：图片文件的上传引入了第三方组件vant weapp【Uploader 文件上传https://vant-contrib.gitee.io/vant-weapp/#/uploader#tu-pian-bian-ji-zhuang-tai】，图片存储到云存储，图片的filesID，以对象数组存储到云数据库fileList对象数组字段里。这里借助组件实现了在发布之前的图片上传、预览和删除功能
+3、该页面存储到数据库共四个字段（id、_openid、content、fileList），个字段存储信息如上
+
+三、有待改进
+1、页面布局与样式
+2、.js处理函数的理解
