@@ -1,1 +1,50 @@
 /* miniprogram/pages/index/update.wxss */
+.userinfo-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: white;
+  
+}
+.userinfo-avatar[size] {
+  width: 100rpx;
+}
+
+.userinfo-avatar:after {
+  border: none;
+}
+
+.button{
+  font-family: Monospace ;
+  font-size: 70%; 
+  position: absolute;
+  left: 220px;
+  top: 370px;
+  background:rgb(202, 208, 214);
+}
+.text_box {
+  background-color: white;
+  width: 544rpx;
+  border-radius: 10rpx;
+  border: 1px solid #e9e9e9;
+  padding-left: 28rpx;
+  font-size: 30rpx;
+  padding-top: 8rpx;
+}
+.text_box .weui-textarea {
+  width: 528rpx;
+  padding-left: 32rpx;
+  padding: 6rpx 0;
+  border-radius: 12rpx;
+}
+.textarea_btn {
+  width: 96rpx;
+  height: 60rpx;
+  font-size: 30rpx;
+  padding: 0;
+  line-height: 60rpx;
+  background-color: #f7ab21;
+  color: white;
+}
