@@ -8,10 +8,12 @@ Page({
    */
   data: {
     fileList: [],
+    value:"",
   },
   onShow: function () {
-    console.log('发布')
+   
     this.getTabBar().init();
+    
   },
   afterRead(event) {
     const { file } = event.detail;
@@ -84,19 +86,57 @@ Page({
       })
     }
   },
+ //字数改变触发事件 
+ bindTextAreaChange: function (e) {
+   let that=this;
+   let info = e.detail.value;
+   that.setData({     
+     value: info,     
+    })
+  },
+
   Onsubmit:function(event){
-    //console.log( this.data.fileList);
+    //上传动态的时间
+    var timestamp = Date.parse(new Date());
+    timestamp = timestamp / 1000;
+    //获取当前时间   存储形式（string）年+"-"+月+"-"+日+" "+时+":"+分
+    var n = timestamp * 1000;
+    var date = new Date(n);
+    //年
+    var Y = date.getFullYear();
+    //月
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    //日
+    var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    //时
+    var h = date.getHours();
+    //分
+    var m = date.getMinutes();
+    
+    console.log("当前时间：" +Y+"-"+M+"-"+D+" "+h+":"+m);
+    timestamp=Y+"-"+M+"-"+D+" "+h+":"+m
+    console.log( timestamp);
     cn.add({
       data:{
-        concent:event.detail.value.content,
-        fileList:this.data.fileList
+        concent:this.data.value,
+        fileList:this.data.fileList,
+        date: timestamp
       }
     }).then(res => {
       console.log(res)
       wx.showToast({
         title: '已发布',
         icon:'success'
-      })
+      })  
     })
-  }
+    //清空页面
+    const { fileList = [] } = [];
+    this.setData({ fileList });
+    this.setData({value:""})
+    wx.switchTab({
+      url: '../index/index',
+    })
+    
+  },
+  
 })

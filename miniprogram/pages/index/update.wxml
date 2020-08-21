@@ -18,7 +18,8 @@
 <form bindsubmit="Onsubmit">
 
 <view class='text_box'>
-    <textarea fixed='true' contenteditable="true" contenteditable="true" auto-height="true" class='weui-textarea' name='content' placeholder='Mood at the moment' placeholder-style='font-size:30rpx;' maxlength='50' style='background-color: white'></textarea>
+    <textarea fixed='true' contenteditable="true" contenteditable="true" auto-height="true" class='weui-textarea' 
+    model:value="{{value}}" bindinput="bindTextAreaChange" placeholder='Mood at the moment' placeholder-style='font-size:30rpx;' maxlength='50' style='background-color: white'></textarea>
   </view>
   <van-uploader file-list="{{ fileList }}" max-count="3" deletable="{{ true }}" bind:after-read="afterRead" bind:delete="Ondelete" />
 <button class="button" size="mini" form-type="submit">发布</button>
