@@ -9,6 +9,10 @@ Page({
   data: {
     fileList: [],
   },
+  onShow: function () {
+    console.log('发布')
+    this.getTabBar().init();
+  },
   afterRead(event) {
     const { file } = event.detail;
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
