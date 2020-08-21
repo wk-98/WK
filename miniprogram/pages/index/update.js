@@ -9,6 +9,10 @@ Page({
   data: {
     fileList: [],
     value:"",
+    avatarUrl: '',
+    //没授权没获得头像时显示的图片路径./user-unlogin.png
+    userInfo: {},
+    logged: false,
   },
   onShow: function () {
    
