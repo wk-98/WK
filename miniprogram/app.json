@@ -5,6 +5,7 @@
     "pages/index/news",
     "pages/index/update",
     "pages/index/my"
+   
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -17,7 +18,7 @@
   "style": "v2",
   "tabBar": {
     "custom": true,
-    "selectedColor": "#4da9ff", 
+    "selectedColor": "#4da9ff",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -42,6 +43,8 @@
     ]
   },
   "usingComponents": {
-    "van-uploader": "@vant/weapp/uploader/index"
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index"
   }
 }
