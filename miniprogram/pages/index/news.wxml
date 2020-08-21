@@ -1,2 +1,10 @@
 <!--miniprogram/pages/index/news.wxml-->
-<text>这是“消息”页面</text>
+
+
+<van-tabs animated bind:click="onClick">
+
+  <van-tab title="评论">评论</van-tab>
+ <van-tab title="赞">赞</van-tab>
+ 
+ 
+</van-tabs>
