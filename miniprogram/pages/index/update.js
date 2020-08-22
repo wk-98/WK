@@ -124,7 +124,8 @@ Page({
       data:{
         concent:this.data.value,
         fileList:this.data.fileList,
-        date: timestamp
+        date: timestamp,
+        userInfo:this.data.userInfo
       }
     }).then(res => {
       console.log(res)
