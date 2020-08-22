@@ -12,7 +12,6 @@ Page({
     avatarUrl: '',
     //没授权没获得头像时显示的图片路径./user-unlogin.png
     userInfo: {},
-    logged: false,
   },
   onShow: function () {
    
@@ -56,15 +55,17 @@ Page({
   //console.log( fileList);
   },
   onLoad: function() {
+    console.log("onLoad")
     if (!wx.cloud) {
       wx.redirectTo({
         url: '../chooseLib/chooseLib',
       })
       return
     }
-
+    console.log("onLoad1");
     // 获取用户信息
     wx.getSetting({
+      //查看是否授权
       success: res => {
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
@@ -74,11 +75,14 @@ Page({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
               })
+              console.log("scc",this.data.userInfo)
+              console.log("saccs",this.data.avatarUrl)
             }
           })
         }
       }
     })
+    console.log("onLoad2")
   },
 
   onGetUserInfo: function(e) {
@@ -87,9 +91,11 @@ Page({
         logged: true,
         avatarUrl: e.detail.userInfo.avatarUrl,
         userInfo: e.detail.userInfo
+       
       })
     }
   },
+  
  //字数改变触发事件 
  bindTextAreaChange: function (e) {
    let that=this;
@@ -120,6 +126,7 @@ Page({
     console.log("当前时间：" +Y+"-"+M+"-"+D+" "+h+":"+m);
     timestamp=Y+"-"+M+"-"+D+" "+h+":"+m
     console.log( timestamp);
+    console.log("userInfo",this.data.userInfo)
     cn.add({
       data:{
         concent:this.data.value,
