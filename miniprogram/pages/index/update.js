@@ -61,41 +61,9 @@ Page({
         url: '../chooseLib/chooseLib',
       })
       return
-    }
-    console.log("onLoad1");
-    // 获取用户信息
-    wx.getSetting({
-      //查看是否授权
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
-              console.log("scc",this.data.userInfo)
-              console.log("saccs",this.data.avatarUrl)
-            }
-          })
-        }
-      }
-    })
-    console.log("onLoad2")
+    }  
   },
 
-  onGetUserInfo: function(e) {
-    if (!this.data.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
-       
-      })
-    }
-  },
-  
  //字数改变触发事件 
  bindTextAreaChange: function (e) {
    let that=this;
@@ -122,32 +90,59 @@ Page({
     var h = date.getHours();
     //分
     var m = date.getMinutes();
-    
-    console.log("当前时间：" +Y+"-"+M+"-"+D+" "+h+":"+m);
+    //console.log("当前时间：" +Y+"-"+M+"-"+D+" "+h+":"+m);
     timestamp=Y+"-"+M+"-"+D+" "+h+":"+m
-    console.log( timestamp);
-    console.log("userInfo",this.data.userInfo)
-    cn.add({
-      data:{
-        concent:this.data.value,
-        fileList:this.data.fileList,
-        date: timestamp,
-        userInfo:this.data.userInfo
+   // console.log( timestamp);
+   // 获取用户信息
+   let this1 = this;  
+   wx.getSetting({
+    //查看是否授权
+    success: function (res) {
+      if (res.authSetting['scope.userInfo']) {
+        // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+        wx.getUserInfo({
+          success: res => {
+            console.log("2",res)
+            this1.setData({
+              userInfo:res.userInfo,
+              avatarUrl:res.userInfo.avatarUrl
+               })
+               console.log("userInfo",this1.data.userInfo)
+               cn.add({
+                 data:{
+                   concent:this1.data.value,
+                   fileList:this1.data.fileList,
+                   date: timestamp,
+                   userInfo:this1.data.userInfo
+                 }
+               }).then(res => {
+                 console.log(res)
+                 wx.showToast({
+                   title: '已发布',
+                   icon:'success'
+                 })  
+               })
+               //清空页面
+               const { fileList = [] } = [];
+               this1.setData({ fileList });
+               this1.setData({value:""})
+               wx.switchTab({
+                 url: '../index/index',
+               })
+                  console.log("结束发布",this1.data.userInfo)
+            }
+          })
+        }else {
+          wx.showToast({
+            title: '请授予权限',
+          })
+          wx.authorize({
+            scope: 'scope.userInfo',
+          })
+        }
       }
-    }).then(res => {
-      console.log(res)
-      wx.showToast({
-        title: '已发布',
-        icon:'success'
-      })  
-    })
-    //清空页面
-    const { fileList = [] } = [];
-    this.setData({ fileList });
-    this.setData({value:""})
-    wx.switchTab({
-      url: '../index/index',
-    })
+   })
+   //标记
     
   },
   
