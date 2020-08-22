@@ -1,0 +1,17 @@
+/* pages/todoinfo/todoinfo.wxss */
+
+
+.user-img-name{
+
+  margin-bottom: -1.5rem;
+
+}
+
+.publish-time{
+  
+
+}
+.publish-time-size{
+
+  font-size: 25rpx;
+}
