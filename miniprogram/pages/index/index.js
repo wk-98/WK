@@ -15,7 +15,7 @@ Page({
    */
   onLoad: function (options) {
     
-      this.getdata();
+      this.getdata(res =>{});
 
   },
 
@@ -68,31 +68,25 @@ Page({
 
   },
   con:function(){
-    // console.log(this.data.task[16].fileList[0].name)
-    // this.data.s=this.data.task[16].fileList[0].name
-
-    // // console.log(this.task.fileList[0].name)
-    this.data.s="cloud://wk-26412.776b-wk-26412-1302881793/img/8e08a16df1566e9b58d9fce55f6db32.png"
+    
     console.log(this.data.s)
   },
 
   onPullDownRefresh:function(){
-    this.getdata();
-    wx.stopPullDownRefresh();
+    this.getdata(res=>{x.stopPullDownRefresh();});
+    w
 
 },
 
-  getdata:function(){
+  getdata:function(callback){
 
     const db =wx.cloud.database();
     const todos =db.collection('cn');
     todos.get().then(res=>{
       console.log(res);
       this.setData(
-        {
-          task:res.data.reverse()
-        }
-      )
+        { task:res.data.reverse() }
+      ),res =>{callback();}
     });
 
 
