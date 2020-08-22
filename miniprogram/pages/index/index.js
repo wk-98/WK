@@ -6,23 +6,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    task:null
+    task:null,
+    task2:null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const db =wx.cloud.database();
-    const todos =db.collection('cn');
-    todos.get().then(res=>{
-      console.log(res);
-      this.setData(
-        {
-          task:res.data
-        }
-      )
-    })
+    
+      this.getdata();
 
   },
 
@@ -81,7 +74,27 @@ Page({
     // // console.log(this.task.fileList[0].name)
     this.data.s="cloud://wk-26412.776b-wk-26412-1302881793/img/8e08a16df1566e9b58d9fce55f6db32.png"
     console.log(this.data.s)
-    
+  },
+
+  onPullDownRefresh:function(){
+    this.getdata();
+    wx.stopPullDownRefresh();
+
+},
+
+  getdata:function(){
+
+    const db =wx.cloud.database();
+    const todos =db.collection('cn');
+    todos.get().then(res=>{
+      console.log(res);
+      this.setData(
+        {
+          task:res.data.reverse()
+        }
+      )
+    });
+
 
   }
 
