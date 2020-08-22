@@ -50,6 +50,7 @@
 </view>
 </navigator>
 </block> 
+<view class="under"><text>已经到最底下啦</text> </view>
 
 
 
