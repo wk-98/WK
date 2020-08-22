@@ -1,5 +1,5 @@
-
-
+// pages/todoinfo/todoinfo.js
+const db = wx.cloud.database();
 Page({
 
   /**
@@ -7,24 +7,29 @@ Page({
    */
   data: {
     task:null
+    // str1:String='ssss'
   },
+  pagedata:{
+
+    
+  },
+
+ 
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const db =wx.cloud.database();
-    const todos =db.collection('cn');
-    todos.get().then(res=>{
-      console.log(res);
-      this.setData(
-        {
+     console.log(options.id)
+      // console.log(options.id)
+      db.collection('cn').doc(options.id).get().then(res => {
+        
+        this.setData({
           task:res.data
-        }
-      )
-    })
-
+        })
+      })
   },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -74,15 +79,22 @@ Page({
   onShareAppMessage: function () {
 
   },
-  con:function(){
-    // console.log(this.data.task[16].fileList[0].name)
-    // this.data.s=this.data.task[16].fileList[0].name
 
-    // // console.log(this.task.fileList[0].name)
-    this.data.s="cloud://wk-26412.776b-wk-26412-1302881793/img/8e08a16df1566e9b58d9fce55f6db32.png"
-    console.log(this.data.s)
-    
-
+  onCounterInc: function() {
+    const newCount = this.data.task.likes + 1
+    console.log(this.data.task._id) 
+    var s='task.likes'
+    db.collection('cn').doc(this.data.task._id).update({ 
+      data: {
+        // 表示将 done 字段置为 true
+        likes:newCount
+      }, success: res => {
+        this.setData({
+          [s]: newCount
+        })}
+    })
+    .then(console.log)
+    .catch(console.error)
   }
-
+  
 })

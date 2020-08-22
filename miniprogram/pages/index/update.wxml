@@ -1,2 +1,30 @@
 <!--miniprogram/pages/index/update.wxml-->
-<text>这是“发布”页面</text>
+
+<!-- 用户 openid头像 -->
+
+  <view class="userinfo">
+    <button 
+      open-type="getUserInfo" 
+      bindgetuserinfo="onGetUserInfo"
+      class="userinfo-avatar"
+      style="background-image: url({{avatarUrl}})"
+      size="default"
+    ></button>
+  
+  </view>
+<text>\n</text>
+<text>\n</text>
+
+<form bindsubmit="Onsubmit">
+
+<view class='text_box'>
+    <textarea fixed='true' contenteditable="true" contenteditable="true" auto-height="true" class='weui-textarea' 
+    model:value="{{value}}" bindinput="bindTextAreaChange" placeholder='Mood at the moment' placeholder-style='font-size:30rpx;' maxlength='50' style='background-color: white'></textarea>
+  </view>
+  <van-uploader file-list="{{ fileList }}" max-count="3" deletable="{{ true }}" bind:after-read="afterRead" bind:delete="Ondelete" />
+<button class="button" size="mini" form-type="submit">发布</button>
+</form>
+
+
+
+
