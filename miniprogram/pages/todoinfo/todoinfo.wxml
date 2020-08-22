@@ -1,0 +1,46 @@
+<!--pages/todoinfo/todoinfo.wxml-->
+
+<view class="publisher-content" class="info-outline"><!--最外边-->
+
+ <view><!--这是轮播图-->
+      <swiper indicator-dots="true"  >
+        <block wx:for="{{task.fileList}}" wx:key="unique">
+          <swiper-item>
+            <image src="{{item.name}}"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view><!--这是轮播图-->
+
+<view class="main-text"><!--这是内容-->
+<text>
+{{task.concent}}
+</text>
+</view><!--这是内容-->
+
+<view class="user-img-name"><!--这是头像和昵称-->
+<van-image
+  round
+  width="2rem"
+  height="2rem"
+  fit="cover"
+  src="{{task.userInfo.avatarUrl}}"
+/>
+<text>{{task.userInfo.nickName}}</text>
+</view><!--这是头像和昵称-->
+
+
+<view class="publish-time"><!--这是发布时间-->
+<text class="publish-time-size">
+{{task.date}}
+</text>
+</view><!--这是发布时间-->
+
+</view><!--最外边-->
+
+
+<van-tabbar class="under-todoinfo" >
+  <van-tabbar-item icon="chat-o"></van-tabbar-item>
+  <van-tabbar-item icon="star-o"></van-tabbar-item>
+  <van-tabbar-item icon="like-o"></van-tabbar-item>
+</van-tabbar>

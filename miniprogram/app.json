@@ -5,7 +5,8 @@
     "pages/index/news",
     "pages/index/update",
     "pages/index/my",
-    "pages/chooseLib/chooseLib"
+    "pages/chooseLib/chooseLib",
+    "pages/todoinfo/todoinfo"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -45,6 +46,10 @@
   "usingComponents": {
     "van-uploader": "@vant/weapp/uploader/index",
     "van-tab": "@vant/weapp/tab/index",
-    "van-tabs": "@vant/weapp/tabs/index"
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-image": "@vant/weapp/image/index",
+    "van-icon": "@vant/weapp/icon",
+    "van-tabbar": "@vant/weapp/tabbar",
+    "van-tabbar-item": "@vant/weapp/tabbar-item"
   }
 }
