@@ -1,20 +1,26 @@
 /* miniprogram/pages/index/update.wxss */
-.userinfo-avatar {
-  width: 100rpx;
-  height: 100rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-  background-size: cover;
-  background-color: white;
-  
-}
-.userinfo-avatar[size] {
-  width: 100rpx;
-}
+.userinfo {  
+  position: relative;  
+  width: 750rpx;  
+  height: 280rpx;  
+  color: #fff;  
+  display: flex;  
+  flex-direction: column;  
+  align-items: center;  
+}  
 
-.userinfo-avatar:after {
-  border: none;
-}
+.userinfo-avatar {  
+  overflow:hidden;  
+  display: block;  
+  width: 160rpx;  
+  height: 160rpx;  
+  margin: 20rpx;  
+  margin-top: 50rpx;  
+  border-radius: 50%;  
+  border: 2px solid #fff;  
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
+}  
+  
 
 .button{
   font-family: Monospace ;
