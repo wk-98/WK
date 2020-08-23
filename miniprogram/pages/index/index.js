@@ -40,7 +40,7 @@ Page({
     wx.showLoading({
       title: '数据加载中',
     })
-    todos.skip(this.pagedata.skip).orderBy('time', 'desc').get().then(res =>{
+    todos.skip(this.pagedata.skip).get().then(res =>{
       let oldData=this.data.task;
       this.data.task_length=this.data.task.length
      

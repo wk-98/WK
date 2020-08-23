@@ -1,7 +1,7 @@
 <!--pages/home/home.wxml-->
 
 <van-search value="{{ value }}" bind:change="onChange" placeholder="请输入搜索关键词" />
-<block wx:for="{{task}}" wx:key="*this" class="res">
+<block wx:for="{{task}}"  class="res">
 <navigator url="../todoinfo/todoinfo?id={{item._id}}">
 <view class="publisher-content">
 <view>
