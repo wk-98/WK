@@ -1,0 +1,34 @@
+/* pages/todoinfo/todoinfo.wxss */
+
+
+.user-img-name{
+
+  margin-bottom: -1.5rem;
+
+}
+
+.publish-time{
+  
+
+}
+.publish-time-size{
+
+  font-size: 25rpx;
+}
+.info-outline{
+
+  margin-bottom: 150rpx;
+
+}
+swiper{
+  width:100%;
+  height:600rpx;
+}
+swiper image{
+  width:100%;
+  height:100%;
+}
+.undertodoinfo{
+
+  position: fixed;
+}

@@ -1,1 +1,56 @@
 /* miniprogram/pages/index/update.wxss */
+.userinfo {  
+  position: relative;  
+  width: 750rpx;  
+  height: 280rpx;  
+  color: #fff;  
+  display: flex;  
+  flex-direction: column;  
+  align-items: center;  
+}  
+
+.userinfo-avatar {  
+  overflow:hidden;  
+  display: block;  
+  width: 160rpx;  
+  height: 160rpx;  
+  margin: 20rpx;  
+  margin-top: 50rpx;  
+  border-radius: 50%;  
+  border: 2px solid #fff;  
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
+}  
+  
+
+.button{
+  font-family: Monospace ;
+  font-size: 70%; 
+  position: absolute;
+  left: 220px;
+  top: 370px;
+  background:rgb(202, 208, 214);
+}
+.text_box {
+  background-color: white;
+  width: 544rpx;
+  border-radius: 10rpx;
+
+  padding-left: 28rpx;
+  font-size: 30rpx;
+  padding-top: 8rpx;
+}
+.text_box .weui-textarea {
+  width: 528rpx;
+  padding-left: 32rpx;
+  padding: 6rpx 0;
+  border-radius: 12rpx;
+}
+.textarea_btn {
+  width: 96rpx;
+  height: 60rpx;
+  font-size: 30rpx;
+  padding: 0;
+  line-height: 60rpx;
+  background-color: #f7ab21;
+  color: white;
+}

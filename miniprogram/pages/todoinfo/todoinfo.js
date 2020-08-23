@@ -1,53 +1,35 @@
-// miniprogram/pages/index/concern.js
-
-
+// pages/todoinfo/todoinfo.js
+const db = wx.cloud.database();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    task2:null
-
+    task:null
+    // str1:String='ssss'
   },
+  pagedata:{
+
+    
+  },
+
+ 
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    
-    this.getdata();
+     console.log(options.id)
+      // console.log(options.id)
+      db.collection('cn').doc(options.id).get().then(res => {
         
-        
-
-   
-
+        this.setData({
+          task:res.data
+        })
+      })
   },
-  getdata:function(){
 
-    const dbb =wx.cloud.database();
-    const todoss =dbb.collection('test');
-
-    todoss.get().then(res =>{
-     
-      this.setData(
-        {
-          task2:res.data
-        },res =>{
-        console.log("获取数据成功！")
-      
-      }
-      )
-
-
-
-
-    })
-
-    
-
-  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -60,8 +42,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log('关注')
-    this.getTabBar().init();
+
   },
 
   /**
@@ -97,5 +78,23 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onCounterInc: function() {
+    const newCount = this.data.task.likes + 1
+    console.log(this.data.task._id) 
+    var s='task.likes'
+    db.collection('cn').doc(this.data.task._id).update({ 
+      data: {
+        // 表示将 done 字段置为 true
+        likes:newCount
+      }, success: res => {
+        this.setData({
+          [s]: newCount
+        })}
+    })
+    .then(console.log)
+    .catch(console.error)
   }
+  
 })
