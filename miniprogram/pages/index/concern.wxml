@@ -1,2 +1,7 @@
 <!--miniprogram/pages/index/concern.wxml-->
 <text>这是“关注”页面</text>
+<block wx:for="{{task2}}" wx:key="*this" class="res">
+<text>
+{{item.name}}
+</text>
+</block>
