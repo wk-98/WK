@@ -6,8 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    task:null,
-    task2:null
+    task:[],
+    value:null,
+    task_length:null
   },
 
   /**
@@ -19,82 +20,76 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
 
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-  con:function(){
-    // console.log(this.data.task[16].fileList[0].name)
-    // this.data.s=this.data.task[16].fileList[0].name
-
-    // // console.log(this.task.fileList[0].name)
-    this.data.s="cloud://wk-26412.776b-wk-26412-1302881793/img/8e08a16df1566e9b58d9fce55f6db32.png"
-    console.log(this.data.s)
-  },
-
+  //获取了数据之后再执行下拉刷新
   onPullDownRefresh:function(){
-    this.getdata();
-    wx.stopPullDownRefresh();
+    console.log("下拉刷新")
+    this.getdata(res=>{wx.stopPullDownRefresh();});
 
 },
+  //获取首页渲染数据
+  getdata:function(callback){
 
-  getdata:function(){
-
+    
+    if(!callback){
+      callback = res =>{}
+    }
     const db =wx.cloud.database();
     const todos =db.collection('cn');
-    todos.get().then(res=>{
-      console.log(res);
+
+    wx.showLoading({
+      title: '数据加载中',
+    })
+    todos.skip(this.pagedata.skip).orderBy('time', 'desc').get().then(res =>{
+      let oldData=this.data.task;
+      this.data.task_length=this.data.task.length
+     
       this.setData(
         {
-          task:res.data.reverse()
-        }
+          task:oldData.concat(res.data)
+        },res =>{
+        //   console.log("拿数据前"+ this.data.task_length)
+        // console.log("拿数据后"+this.data.task.length)
+        console.log("获取数据成功！")
+        if( this.data.task_length== this.data.task.length){
+          console.log("没有数据更新")
+        }else{
+          this.pagedata.skip=this.data.task.length
+          console.log("加20分页")
+        }  console.log("当前过滤页数"+this.pagedata.skip)
+       
+        wx.hideLoading({
+          success: (res) => {},
+        })
+        callback();
+      
+      }
       )
-    });
 
+
+
+
+    })
+
+    
+
+  },
+  //下拉刷新
+  onReachBottom:function(){
+
+    this.getdata(res =>{});
+    console.log("底部刷新")
+
+  },
+  pagedata:{
+    skip:0
+
+  },
+  
+  //打印搜索框内容，内容发生改变打印一次
+  onChange:function(event){
+
+      console.log(event.detail)
 
   }
 
