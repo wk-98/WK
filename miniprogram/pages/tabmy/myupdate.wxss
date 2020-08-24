@@ -1,0 +1,82 @@
+/* miniprogram/pages/tabmy/myupdate.wxss */
+/* pages/home/home.wxss */
+.home-body{
+  margin-top: 5px;
+  background-color: azure;
+  margin-bottom: 150rpx;
+}
+
+.publisher-content{
+  margin-top: 5px;
+  margin-left: 5px;
+  display: flex;
+  flex-direction:row; 
+  align-items: center;
+  justify-content: flex-start;
+
+}
+
+.publish-time{
+
+  margin-left: 5px;
+  justify-content: flex-start;
+  margin-right: 5px;
+  margin-top: -5px;
+
+}
+.publish-time-size{
+
+  font-size: x-small;
+}
+
+.main-text{
+  margin-left: 5px;
+  justify-content: flex-start;
+  margin-right: 5px;
+  margin-bottom: 5px;
+
+}
+
+.image-size{
+
+  margin-left: 5px;
+  display: flex;
+  flex-direction:row; 
+  justify-content: flex-start;
+
+}
+.icon-row{
+ display: flex;
+ flex-direction:row; 
+ align-items: center;
+ justify-content: space-around;
+ margin-top: 5px;
+ margin-bottom: 5px;
+
+}
+
+.home-icon-share{
+
+font-size: 1.5rem;
+}
+.home-icon-comment{
+
+  font-size: 1.5rem;
+}
+.home-icon-like{
+
+  font-size: 1.5rem;
+}
+.icon-font-size{
+
+  font-size: 0.8rem;
+}
+.under{
+  margin-bottom: 150rpx;
+
+}
+.res{
+
+  flex-direction:column-reverse;
+
+}
