@@ -58,12 +58,6 @@ Page({
   },
   onLoad: function() {
     //console.log("onLoad")
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }  
       // 获取用户信息
       wx.getSetting({
         success: res => {
@@ -90,18 +84,23 @@ Page({
      value: info,     
     })
   },
-
   Onsubmit:function(event){
     if (!this.data.logged && event.detail.userInfo) {
       this.setData({
         avatarUrl: event.detail.userInfo.avatarUrl,
         userInfo: event.detail.userInfo
+      }) 
+      this.add()
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '发布动态需要获取您的用户信息，您拒绝了授权，如需发布请重新进行授权发布',
+        confirmText:'重新发布',
+        showCancel: false,
       })
     }
-   this.add()
-  },
-
   
+  },
   //将数据添加到数据库
   add:function(){
      
