@@ -65,15 +65,15 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/index/update",
-					"pathName": "pages/index/update",
+					"name": "pages/index/my",
+					"pathName": "pages/index/my",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/index/news",
-					"pathName": "pages/index/news",
+					"name": "pages/tabmy/myupdate",
+					"pathName": "pages/tabmy/myupdate",
 					"query": "",
 					"scene": null
 				}
