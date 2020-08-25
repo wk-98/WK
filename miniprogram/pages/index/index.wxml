@@ -1,7 +1,9 @@
 <!--pages/home/home.wxml-->
 
 <van-search value="{{ value }}" bind:change="onChange" placeholder="请输入搜索关键词" />
-<block wx:for="{{task}}"  class="res">
+
+<view  class="res">
+<block wx:for="{{task}}" >
 <navigator url="../todoinfo/todoinfo?id={{item._id}}">
 <view class="publisher-content">
 <view>
@@ -49,8 +51,10 @@
 
 </view>
 </navigator>
+<van-divider />
 </block> 
-<view class="under"><text>已经到最底下啦</text> </view>
+</view>
+<view class='placeholder-view'>已经到最底下啦</view>
 
 
 

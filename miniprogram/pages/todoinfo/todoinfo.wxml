@@ -1,12 +1,15 @@
 <!--pages/todoinfo/todoinfo.wxml-->
 
+
+
+
 <view class="publisher-content" class="info-outline"><!--最外边-->
 
- <view><!--这是轮播图-->
+ <view ><!--这是轮播图-->
       <swiper indicator-dots="true"  >
         <block wx:for="{{task.fileList}}" wx:key="unique">
-          <swiper-item>
-            <image src="{{item.name}}"></image>
+          <swiper-item  >
+            <image wx:if="{{item.name}}" src="{{item.name}}"></image>
           </swiper-item>
         </block>
       </swiper>
@@ -35,12 +38,47 @@
 {{task.date}}
 </text>
 </view><!--这是发布时间-->
+<van-divider />
 
+<!--这是评论-->
+<view class="comment-outline">
+<block wx:for="{{com}}">
+<van-image
+  round
+  width="2rem"
+  height="2rem"
+  fit="cover"
+  src="{{item.userInfo1.avatarUrl}}"
+/>
+<view>
+<text>
+{{item.content}}
+</text>
+</view>
+<van-divider />
+</block>
+</view>
 </view><!--最外边-->
 
 
+
+
+
 <van-tabbar class="under-todoinfo" >
-  <van-tabbar-item icon="chat-o"></van-tabbar-item>
-  <van-tabbar-item icon="star-o"></van-tabbar-item>
-  <van-tabbar-item icon="like-o"></van-tabbar-item>
+  <!-- <van-tabbar-item icon="chat-o"></van-tabbar-item> -->
+
+<view class="fl_form"> 
+  <form  bindsubmit="onComment">
+  <view>
+  <input  name="comment"  placeholder='评论' class="comment-square" ></input>
+  </view>
+<view>
+<button form-type="submit" class="comment-icon">评论</button>
+</view>
+
+</form>
+</view>
+
+  <!-- <van-tabbar-item icon="star-o"></van-tabbar-item>
+  <van-tabbar-item icon="like-o"></van-tabbar-item> -->
 </van-tabbar>
