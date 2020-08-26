@@ -41,7 +41,6 @@ Page({
     })
   },
   Ondelete(event){
-     console.log(event.detail.file.name)
      wx.cloud.deleteFile({
         fileList:[event.detail.file.name],
         success(res){
@@ -59,12 +58,6 @@ Page({
   },
   onLoad: function() {
     //console.log("onLoad")
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }  
       // 获取用户信息
       wx.getSetting({
         success: res => {
@@ -91,21 +84,26 @@ Page({
      value: info,     
     })
   },
-
   Onsubmit:function(event){
     if (!this.data.logged && event.detail.userInfo) {
       this.setData({
         avatarUrl: event.detail.userInfo.avatarUrl,
         userInfo: event.detail.userInfo
+      }) 
+      this.add()
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '发布动态需要获取您的用户信息，您拒绝了授权，如需发布请重新进行授权发布',
+        confirmText:'重新发布',
+        showCancel: false,
       })
     }
-   this.add()
-  },
-
   
+  },
   //将数据添加到数据库
   add:function(){
-      let this2 = this;
+     
       //上传动态的时间
       this.data.timestamp = Date.parse(new Date());
       this.data.timestamp =this.data.timestamp / 1000;
@@ -126,11 +124,11 @@ Page({
       this.data.timestamp=Y+"-"+M+"-"+D+" "+h+":"+m
     cn.add({
       data:{
-        concent:this2.data.value,
-        fileList:this2.data.fileList,
-        date: this2.data.timestamp,
-        time:this2.data.date,
-        userInfo:this2.data.userInfo
+        concent:this.data.value,
+        fileList:this.data.fileList,
+        date: this.data.timestamp,
+        time:this.data.date,
+        userInfo:this.data.userInfo
       }
     }).then(res => {
       console.log("zheli",res)
@@ -141,14 +139,12 @@ Page({
     })
     //清空页面
     const { fileList = [] } = [];
-    this2.setData({ fileList });
-    this2.setData({value:""})
+    this.setData({ fileList });
+    this.setData({value:""})
     wx.switchTab({
       url: '../index/index',
     })
-       console.log("结束发布",this2.data.userInfo)
        }
-
     })
   
    
