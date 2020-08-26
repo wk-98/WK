@@ -1,11 +1,10 @@
-/* miniprogram/pages/tabmy/myupdate.wxss */
 /* pages/home/home.wxss */
-.home-body{
-  margin-top: 5px;
-  background-color: azure;
-  margin-bottom: 150rpx;
-}
 
+.res{
+  display: flex;
+  flex-direction:column-reverse;
+
+}
 .publisher-content{
   margin-top: 5px;
   margin-left: 5px;
@@ -55,10 +54,7 @@
 
 }
 
-.home-icon-share{
 
-font-size: 1.5rem;
-}
 .home-icon-comment{
 
   font-size: 1.5rem;
@@ -75,8 +71,9 @@ font-size: 1.5rem;
   margin-bottom: 150rpx;
 
 }
-.res{
-
-  flex-direction:column-reverse;
-
+.placeholder-view {
+  width: 100%;
+  height: 160rpx;
+  text-align: center;
 }
+
