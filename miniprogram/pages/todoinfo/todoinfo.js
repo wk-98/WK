@@ -6,15 +6,30 @@ Page({
    * 页面的初始数据
    */
   data: {
-    task:null
-    // str1:String='ssss'
+    task:null,
+    com:null,
+    avatarUrl1:null,
+    userInfo1:null
+
   },
   pagedata:{
 
     
   },
 
- 
+  getComment:function(){
+
+    db.collection('comment').where({
+      _id2: this.data.task._id
+    })
+    .get().then(res => {
+      
+      this.setData({
+        com:res.data
+      })
+    })
+
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -27,6 +42,30 @@ Page({
         this.setData({
           task:res.data
         })
+      }),
+      db.collection('comment').where({
+        _id2: options.id
+      })
+      .get().then(res => {
+        
+        this.setData({
+          com:res.data
+        })
+      }),
+      wx.getSetting({
+        success: res => {
+          if (res.authSetting['scope.userInfo']) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+            wx.getUserInfo({
+              success: res => {
+                this.setData({
+                  avatarUrl1: res.userInfo.avatarUrl,
+                  userInfo1: res.userInfo
+                })
+              }
+            })
+          }
+        }
       })
   },
 
@@ -35,7 +74,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**
@@ -95,6 +134,31 @@ Page({
     })
     .then(console.log)
     .catch(console.error)
+  },
+  onComment:function(event){
+
+      console.log(event.detail.value.comment)
+      // console.log(this.data.userInfo1)
+      // console.log(this.data.avatarUrl1)
+      const todos =db.collection('comment')
+      todos.add({data:{
+        _id2:this.data.task._id,
+        content:event.detail.value.comment,
+        userInfo2:this.data.task.userInfo,
+        userInfo1:this.data.userInfo1,
+        avatarUrl1:this.data.avatarUrl2
+
+      }
+      }).then(res =>{
+        console.log("添加成功")
+        wx.showToast({
+          title: '评论成功',
+        })
+        this.getComment()
+      })
+  
+
   }
+ 
   
 })

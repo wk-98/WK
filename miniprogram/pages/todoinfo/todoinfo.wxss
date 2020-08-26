@@ -7,9 +7,9 @@
 
 }
 
-.publish-time{
-  
-
+.main-text{
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
 }
 .publish-time-size{
 
@@ -31,4 +31,26 @@ swiper image{
 .undertodoinfo{
 
   position: fixed;
+}
+.comment-icon{
+
+  display: flex;
+  size: mini;
+  
+}
+.fl_form{
+
+  display: flex;
+  flex-direction: row-reverse;
+
+}
+.comment-square{
+  
+  background-color: aqua;
+}
+.comment-outline{
+
+  display: flex;
+  flex-direction:column-reverse;
+
 }
