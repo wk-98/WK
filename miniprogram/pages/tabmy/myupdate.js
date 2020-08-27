@@ -15,14 +15,42 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {  
-    this.data._openid=options._openid;
+    const app = getApp()
+    //console.log("onload")
+    //console.log("app2",app.flag)
+    if(app.flag==2){
+       this.data._openid=options._openid;
     this.getdata();
+    }else{
+      this.getdata();
+    }
+   
   
   },
+
+  onShow:function(){
+    //console.log("onshow")
+    const app = getApp()
+    //console.log("app1",app.flag)
+    if(app.flag==1){
+      //console.log("onshow")
+      this.data.task=[],
+      this.data.task_length=null,
+      this.data.value=null,
+      this.pagedata.skip=0,
+      this.onLoad()
+      
+    }
+   
+
+  },
+
+
+
 //获取首页渲染数据
 getdata:function(callback){
 
-    console.log("传过来的_openid",this.data._openid)
+    //console.log("传过来的_openid",this.data._openid)
   if(!callback){
     callback = res =>{}
   }
@@ -44,13 +72,13 @@ getdata:function(callback){
       },res =>{
       //   console.log("拿数据前"+ this.data.task_length)
       // console.log("拿数据后"+this.data.task.length)
-      console.log("获取数据成功！")
+      //console.log("获取数据成功！")
       if( this.data.task_length== this.data.task.length){
-        console.log("没有数据更新")
+        //console.log("没有数据更新")
       }else{
         this.pagedata.skip=this.data.task.length
-        console.log("加20分页")
-      }  console.log("当前过滤页数"+this.pagedata.skip)
+        //console.log("加20分页")
+      }  //console.log("当前过滤页数"+this.pagedata.skip)
      
       wx.hideLoading({
         success: (res) => {},
@@ -66,7 +94,7 @@ pagedata:{
 },
  //获取了数据之后再执行下拉刷新
  onPullDownRefresh:function(){
-  console.log("下拉刷新")
+  //console.log("下拉刷新")
   this.getdata(res=>{wx.stopPullDownRefresh();});
 
 },
@@ -74,7 +102,7 @@ pagedata:{
 onReachBottom:function(){
 
   this.getdata(res =>{});
-  console.log("底部刷新")
+  //console.log("底部刷新")
 
 },
   /**
@@ -82,14 +110,8 @@ onReachBottom:function(){
    */
   onReady: function () {
 
-  },
+  }
 
-  /**
-   * 生命周期函数--监听页面显示.每次点在页面执行一次
-   */
-  onShow: function () {
-
-  },
-
+ 
   
 })
