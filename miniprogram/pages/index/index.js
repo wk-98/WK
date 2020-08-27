@@ -15,11 +15,30 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    console.log("onload")
       this.getdata();
 
   },
+  onShow:function(){
+    const app = getApp()
+    console.log("app1",app.flag)
+    if(app.flag==1){
+      console.log("onshow")
+      this.data.task=[],
+      this.data.task_length=null,
+      this.data.value=null,
+      this.pagedata.skip=0,
+      this.onLoad(),
+      app.flag=2
+    }
+    //发布成功时将全局变量app.flag置为3，跳回首页执行刷新
+    if(app.flag==3){
+      this.onPullDownRefresh()
+      app.flag=2
+    }
 
+  },
+  
 
   //获取了数据之后再执行下拉刷新
   onPullDownRefresh:function(){
@@ -30,20 +49,20 @@ Page({
   //获取首页渲染数据
   getdata:function(callback){
 
-    
+    console.log("getdata")
     if(!callback){
       callback = res =>{}
     }
     const db =wx.cloud.database();
     const todos =db.collection('cn');
 
-    wx.showLoading({
+   /* wx.showLoading({
       title: '数据加载中',
-    })
+    })*/
     todos.skip(this.pagedata.skip).get().then(res =>{
       let oldData=this.data.task;
       this.data.task_length=this.data.task.length
-     
+     console.log("shuju res",res)
       this.setData(
         {
           task:oldData.concat(res.data)
