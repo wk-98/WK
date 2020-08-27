@@ -19,8 +19,15 @@ Page({
    */
   onLoad: function (options) {
     const app = getApp();
+    if(app.globalData.openid){
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        avatarUrl: app.globalData.avatarUrl,
+        logged:true
+      })
+    }
      // 获取用户信息
-    wx.getSetting({
+    /*wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']&&!app.globalData._openid) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
@@ -37,8 +44,8 @@ Page({
           })
         }
       }
-    })
-
+    })*/
+   
   },
 
   /**
@@ -50,7 +57,7 @@ Page({
   },
 
   onGetuserInfo(e){
-   
+   const app = getApp()
     console.log(e)
     if (!this.data.logged && e.detail.userInfo) {
       this.data.logged=true;
@@ -59,6 +66,8 @@ Page({
         avatarUrl: e.detail.userInfo.avatarUrl,
         userInfo: e.detail.userInfo
       })
+      app.globalData.avatarUrl = this.data.avatarUrl,
+      app.globalData.userInfo = this.data.userInfo
     }
        // 调用云函数获取openid,并通过wx.getUserInfo({})获取用户信息
      this.onGetOpenid()
@@ -66,6 +75,7 @@ Page({
   },
   onGetOpenid: function() {
     const app = getApp();
+    console.log("app.globalData.openid1",app.globalData.openid)
     // 调用云函数获取openid,并通过wx.getUserInfo({})获取用户信息
     wx.cloud.callFunction({
       name: 'login',
@@ -74,6 +84,9 @@ Page({
         console.log('[云函数] [login] user : ', res)
         console.log('[云函数] [login] user openid: ', res.result.openid)
         app.globalData.openid = res.result.openid
+        wx.showToast({
+          title: '已登录',
+        })
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)
