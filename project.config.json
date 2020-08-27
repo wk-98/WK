@@ -30,7 +30,7 @@
 	},
 	"appid": "wx0a65f6156002cbeb",
 	"projectname": "%E5%B0%8F%E7%A8%8B%E5%BA%8F1",
-	"libVersion": "2.8.1",
+	"libVersion": "2.8.3",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
@@ -74,6 +74,13 @@
 					"id": -1,
 					"name": "pages/tabmy/myupdate",
 					"pathName": "pages/tabmy/myupdate",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/todoinfo/todoinfo",
+					"pathName": "pages/todoinfo/todoinfo",
 					"query": "",
 					"scene": null
 				}
