@@ -85,7 +85,7 @@ Page({
     })
   },
   Onsubmit:function(event){
-    if (!this.data.logged && event.detail.userInfo) {
+    if (event.detail.userInfo) {
       this.setData({
         avatarUrl: event.detail.userInfo.avatarUrl,
         userInfo: event.detail.userInfo
@@ -103,7 +103,7 @@ Page({
   },
   //将数据添加到数据库
   add:function(){
-     
+    const app = getApp()
       //上传动态的时间
       this.data.timestamp = Date.parse(new Date());
       this.data.timestamp =this.data.timestamp / 1000;
@@ -131,19 +131,25 @@ Page({
         userInfo:this.data.userInfo
       }
     }).then(res => {
-      console.log("zheli",res)
+      console.log("z发布成功",res)
+      app.flag=3,
+
       wx.showToast({
         title: '已发布',
         icon:'success'
+      })
+      wx.switchTab({
+        url: '../index/index',
+      })
+    }).catch(err => {
+        // 插入数据失败
+        console.log(err)
       })  
-    })
     //清空页面
     const { fileList = [] } = [];
     this.setData({ fileList });
     this.setData({value:""})
-    wx.switchTab({
-      url: '../index/index',
-    })
+    
        }
     })
   
