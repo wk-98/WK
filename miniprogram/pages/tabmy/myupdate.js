@@ -21,10 +21,12 @@ Page({
     if(app.flag==2){
        this.data._openid=options._openid;
     this.getdata();
+    
     }else{
       this.getdata();
+      
     }
-   
+  
   
   },
 
@@ -75,9 +77,11 @@ getdata:function(callback){
       //console.log("获取数据成功！")
       if( this.data.task_length== this.data.task.length){
         //console.log("没有数据更新")
+        console.log("这里是task",this.data.task)
       }else{
         this.pagedata.skip=this.data.task.length
         //console.log("加20分页")
+        console.log("这里是task11",this.data.task)
       }  //console.log("当前过滤页数"+this.pagedata.skip)
      
       wx.hideLoading({

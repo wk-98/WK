@@ -25,10 +25,10 @@
 .button{
   font-family: Monospace ;
   font-size: 70%; 
-  position: absolute;
-  left: 220px;
-  top: 370px;
   background:rgb(202, 208, 214);
+  float: right;
+  top: 200px;
+  margin: 30px;
 }
 .text_box {
   background-color: white;

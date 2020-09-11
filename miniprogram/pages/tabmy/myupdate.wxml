@@ -3,6 +3,7 @@
 
 <view  class="res">
 <block wx:for="{{task}}" >
+
 <navigator url="../todoinfo/todoinfo?id={{item._id}}">
 <view class="publisher-content">
 <view>
@@ -50,7 +51,8 @@
 <van-divider />
 </block> 
 </view>
-<view class='placeholder-view'>已经到最底下啦</view>
+<view wx:if="{{task.length == 0}}" class='placeholder-view'>快去发布一条动态吧</view>
+<view wx:else class='placeholder-view'>已经到最底下啦</view>
 
 
 

@@ -68,9 +68,10 @@ Page({
       })
       app.globalData.avatarUrl = this.data.avatarUrl,
       app.globalData.userInfo = this.data.userInfo
+      this.onGetOpenid()
     }
        // 调用云函数获取openid,并通过wx.getUserInfo({})获取用户信息
-     this.onGetOpenid()
+     
     
   },
   onGetOpenid: function() {

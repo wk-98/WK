@@ -21,6 +21,7 @@ Page({
     this.getTabBar().init();
     
   },
+  //上传照片
   afterRead(event) {
     const { file } = event.detail;
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
@@ -35,12 +36,15 @@ Page({
         const { fileList = [] } = this.data;
         fileList.push({ ...file, url: res.data ,name:res.fileID});
         this.setData({ fileList });
-        //console.log( fileList);
+        console.log( fileList);
       },
       fail: console.error
     })
   },
+  //删除照片
   Ondelete(event){
+    let this1 = this
+    console.log("sdx",event)
      wx.cloud.deleteFile({
         fileList:[event.detail.file.name],
         success(res){
@@ -52,14 +56,14 @@ Page({
       })
   //更新 fileList
   const { fileList = [] } = this.data;
-  fileList.pop({ url: event.detail.file.path ,name:event.detail.file.name});
+  fileList.splice(event.detail.index,1);    //[].splice删除指定的数组元素
   this.setData({ fileList });
-  //console.log( fileList);
+  //console.log( fileList);*/url: event.detail.file.path ,name:event.detail.file.name
   },
   onLoad: function() {
     //console.log("onLoad")
-      // 获取用户信息
-      wx.getSetting({
+      // 检查用户授权情况
+      /*wx.getSetting({
         success: res => {
           if (res.authSetting['scope.userInfo']) {
             // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
@@ -73,7 +77,7 @@ Page({
             })
           }
         }
-      })
+      })*/
   },
 
  //字数改变触发事件 
@@ -84,12 +88,37 @@ Page({
      value: info,     
     })
   },
+
+  //提交发布数据，已授权直接发布
   Onsubmit:function(event){
+    //不能发布空内容
+    if(this.data.value != '' || this.data.fileList.length != 0){
+       const app =getApp()
     if (event.detail.userInfo) {
       this.setData({
         avatarUrl: event.detail.userInfo.avatarUrl,
-        userInfo: event.detail.userInfo
-      }) 
+        userInfo: event.detail.userInfo,
+      })
+     // console.log("app.globalData:",app.globalData.openid)
+     //第一次授权，将用户信息写进全局变量中
+      if(!app.globalData.openid){
+        app.globalData.avatarUrl = this.data.avatarUrl
+          app.globalData.userInfo = this.data.userInfo
+          wx.cloud.callFunction({
+            name: 'login',
+            data: {},
+            success: res => {
+              console.log('[云函数] [login] user : ', res)
+              //console.log('[云函数] [login] user openid: ', res.result.openid)
+              app.globalData.openid = res.result.openid
+            
+            },
+            fail: err => {
+              console.error('[云函数] [login] 调用失败', err)
+            }
+          })
+          
+      }
       this.add()
     }else{
       wx.showModal({
@@ -99,6 +128,13 @@ Page({
         showCancel: false,
       })
     }
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '不能发布空内容',
+      })
+    }
+   
   
   },
   //将数据添加到数据库
@@ -122,6 +158,7 @@ Page({
       var m =  this.data.date.getMinutes();
       //console.log("当前时间：" +Y+"-"+M+"-"+D+" "+h+":"+m);
       this.data.timestamp=Y+"-"+M+"-"+D+" "+h+":"+m
+    //数据库插入数据操作
     cn.add({
       data:{
         concent:this.data.value,
@@ -130,8 +167,8 @@ Page({
         time:this.data.date,
         userInfo:this.data.userInfo
       }
-    }).then(res => {
-      console.log("z发布成功",res)
+    }).then(res => {      // 插入成功
+      //console.log("z发布成功",res)
       app.flag=3,
 
       wx.showToast({
@@ -141,7 +178,7 @@ Page({
       wx.switchTab({
         url: '../index/index',
       })
-    }).catch(err => {
+    }).catch(err => {     //插入失败
         // 插入数据失败
         console.log(err)
       })  
@@ -149,8 +186,7 @@ Page({
     const { fileList = [] } = [];
     this.setData({ fileList });
     this.setData({value:""})
-    
-       }
-    })
+  },
+})
   
    
