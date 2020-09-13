@@ -43,8 +43,10 @@ Page({
   },
   //删除照片
   Ondelete(event){
+
     let this1 = this
     console.log("sdx",event)
+
      wx.cloud.deleteFile({
         fileList:[event.detail.file.name],
         success(res){
@@ -62,8 +64,10 @@ Page({
   },
   onLoad: function() {
     //console.log("onLoad")
+
       // 检查用户授权情况
       /*wx.getSetting({
+
         success: res => {
           if (res.authSetting['scope.userInfo']) {
             // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
@@ -90,6 +94,7 @@ Page({
   },
 
   //提交发布数据，已授权直接发布
+
   Onsubmit:function(event){
     //不能发布空内容
     if(this.data.value != '' || this.data.fileList.length != 0){
@@ -97,6 +102,7 @@ Page({
     if (event.detail.userInfo) {
       this.setData({
         avatarUrl: event.detail.userInfo.avatarUrl,
+
         userInfo: event.detail.userInfo,
       })
      // console.log("app.globalData:",app.globalData.openid)
@@ -119,6 +125,7 @@ Page({
           })
           
       }
+
       this.add()
     }else{
       wx.showModal({
@@ -128,6 +135,7 @@ Page({
         showCancel: false,
       })
     }
+
     }else{
       wx.showModal({
         title: '提示',
@@ -135,11 +143,14 @@ Page({
       })
     }
    
+
   
   },
   //将数据添加到数据库
   add:function(){
+
     const app = getApp()
+
       //上传动态的时间
       this.data.timestamp = Date.parse(new Date());
       this.data.timestamp =this.data.timestamp / 1000;
@@ -186,7 +197,9 @@ Page({
     const { fileList = [] } = [];
     this.setData({ fileList });
     this.setData({value:""})
+
   },
 })
+
   
    

@@ -1,8 +1,10 @@
+
 <!--pages/home/home.wxml-->
 
 
 <view  class="res">
 <block wx:for="{{task}}" >
+
 
 <navigator url="../todoinfo/todoinfo?id={{item._id}}">
 <view class="publisher-content">
@@ -36,6 +38,8 @@
 
 <view class="icon-row">
 
+
+
 <view class="home-icon-comment">
 <van-icon name="chat-o" />
 <text class="icon-font-size">评论</text>
@@ -48,11 +52,13 @@
 
 </view>
 </navigator>
+
 <van-divider />
 </block> 
 </view>
 <view wx:if="{{task.length == 0}}" class='placeholder-view'>快去发布一条动态吧</view>
 <view wx:else class='placeholder-view'>已经到最底下啦</view>
+
 
 
 

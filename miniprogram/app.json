@@ -5,6 +5,7 @@
     "pages/index/news",
     "pages/index/update",
     "pages/index/my",
+
     "pages/todoinfo/todoinfo",
     "pages/tabmy/myupdate",
     "pages/tabmy/mycollect",
