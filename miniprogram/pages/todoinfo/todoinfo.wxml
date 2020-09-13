@@ -23,33 +23,6 @@
     </view><!--这是轮播图-->
 
 
-<view class="main-text"><!--这是内容-->
-<text>
-{{task.concent}}
-</text>
-</view><!--这是内容-->
-
-<view class="user-img-name"><!--这是头像和昵称-->
-<van-image
-  round
-  width="2rem"
-  height="2rem"
-  fit="cover"
-  src="{{task.userInfo.avatarUrl}}"
-/>
-<text class="nickName">{{task.userInfo.nickName}}</text>
-
-
-
-</view><!--这是头像和昵称-->
-
-
-<view class="publish-time"><!--这是发布时间-->
-<text class="publish-time-size">
-{{task.date}}
-</text>
-</view><!--这是发布时间-->
-
 <!--这是关注-->
 <view style="float:right" bindtap="concern" wx:if="{{signal == 1}}">
 <van-icon  name="{{icon}}" size="20px" color="{{ icon_color}}"/>
@@ -124,5 +97,4 @@
 
 
  
-</van-tabbar>
 
