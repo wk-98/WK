@@ -8,12 +8,15 @@ Page({
   data: {
     task:null,
     com:null,
-    avatarUrl1:null,
+    avatarUrl1:null,  
     userInfo1:null,
     icon_color:'#000',
     icon:'like-o',
     signal:1,
     _id:'',
+    info:'',//评论的内容
+    test1:'莲子与',
+    arr:['你好']
    
 
   },
@@ -25,7 +28,7 @@ Page({
   getComment:function(){
 
     db.collection('comment').where({
-      _id2: this.data.task._id
+      b_id: this.data.task._id
     })
     .get().then(res => {
       
@@ -62,14 +65,13 @@ Page({
         
       }),
       db.collection('comment').where({
-        _id2: options.id
+        b_id: options.id
       })
       .get().then(res => {
-        console.log("zhel",res)
+        console.log("载入评论内容：",res)
         this.setData({
           com:res.data
         })
-        console.log("com",this.data.com)
         
       }),
      
@@ -304,46 +306,109 @@ delete(){
 
   
 
-  onCounterInc: function() {
-    const newCount = this.data.task.likes + 1
-    console.log(this.data.task._id) 
-    var s='task.likes'
-    db.collection('cn').doc(this.data.task._id).update({ 
-      data: {
-        // 表示将 done 字段置为 true
-        likes:newCount
-      }, success: res => {
-        this.setData({
-          [s]: newCount
-        })}
-    })
-    .then(console.log)
-    .catch(console.error)
+ 
+
+  Comment_inputedit: function(e) {
+    //获取事件参数 通过事件参数获取input所对应的全局属性属性名
+    var dataset = e.currentTarget.dataset;
+    //获取input的当前值 通过value获取用户当前输入的内容
+    var value = e.detail.value;
+    //将input所对应的全局属性的属性值更新
+    this.data[dataset.item] = value;
   },
-  onComment:function(event){
+  Comment_btnClick() {
 
-      console.log(event.detail.value.comment)
-      // console.log(this.data.userInfo1)
-      // console.log(this.data.avatarUrl1)
-      const todos =db.collection('comment')
-      todos.add({data:{
-        _id2:this.data.task._id,
-        content:event.detail.value.comment,
-        userInfo2:this.data.task.userInfo,
-        userInfo1:this.data.userInfo1,
-        avatarUrl1:this.data.avatarUrl2
+    console.log("评论内容:",this.data.info);
+    let aaa=this.data.info;
 
-      }
-      }).then(res =>{
-        console.log("添加成功")
-        wx.showToast({
-          title: '评论成功',
-        })
-        this.getComment()
-      })
+    if(this.data.info!="")
+    {
+
+      const db = wx.cloud.database()
+      const _ = db.command
+        // where 查询操作
+db.collection('comment').where({
+    b_id:this.data.task._id
+  })
+  .get()
+  .then(res => {
+    // 查询数据成功
+    console.log("查询该人是否有评论",res)
+    
+    if(res.data.length){
+      //更新数据
+      // update 更新操作
+      // primary key 要更新的那条数据的主键id
+      db.collection('comment').doc(res.data[0]._id)
+      .update({
+        // 想要更新后的数据
+        data: {
+           comment_array:_.push(
+          [{
+                   comment_content:aaa,
+                   userInfo1:this.data.userInfo1
+              }]
+
+    )
+        }
+      }).then(res => {
+        // 更新数据成功
+        console.log(res),
+        this.getComment();
+      }).catch(err => {
+        // 更新数据失败
+        console.log(err)
+      })
   
+    }else{
+      //插入数据
+      // add 插入操作
+      db.collection('comment').add({
+        // 要插入的数据
+        data: {
+            b_id:this.data.task._id,
+                comment_array:[{
+                   comment_content:aaa,
+                   userInfo1:this.data.userInfo1,
+              }]
+        }
+      }).then(res => {
+        // 插入数据成功
+        console.log("插入成功",res),
+        this.getComment();
+      }).catch(err => {
+        // 插入数据失败
+        console.log("插入失败",err)
+      })
+    }
+  }).catch(err => {
+    // 查询数据失败
+    console.log(err)
+    
+  })
 
+
+
+    }else{
+      wx.showToast({
+        title: '请填写评论内容',
+        icon: 'none'
+      })
+      console.log("没有填写评论内容")
+
+    }
+    
+
+    //对数据层的info属性更新
+    this.data.info = "";
+    //通过setData函数对数据层的info属性再次赋值 用于触发全局属性info属性的set属性，使当前对象的模板层重新渲染完成页面更新
+    this.setData({
+      info: this.data.info
+    })
   }
  
   
-})
+
+
+
+})//这2个是最底部的框框
