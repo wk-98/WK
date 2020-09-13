@@ -1,1 +1,6 @@
 /* miniprogram/pages/tabmy/mycollect.wxss */
+.res{
+  display: flex;
+  flex-direction:column-reverse;
+
+}

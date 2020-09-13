@@ -1,66 +1,81 @@
 // miniprogram/pages/tabmy/mycollect.js
+const db =wx.cloud.database();
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    task:[],        //存放动态id
+    _id:[]     //存放点赞的动态的
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    db.collection('concern').where({
+      // 查询条件
+      _openid:app.globalData._openid
+    })
+    .get()
+    .then(res => {
+      // 查询数据成功
+      console.log(res)  
+      let a = []
+      for(var i =0 ;i < res.data[0].dianzan.length; i++){
+        a[i] =  res.data[0].dianzan[i]._id
+      }
+      this.data._id = a;
+      console.log(this.data._id)
+      this.getdata()
+    }).catch(err => {
+      // 查询数据失败
+      console.log(err)
+    })
 
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShow:function(){
+    console.log("dfdvgb")
+    this.setData({
+      task:[]
+    })
+   // this.data.task = [],
+    this.onLoad()
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  //根据点赞动态的唯一标识_id获取点赞的动态
+  getdata:function(){
+    //查询所关注人发布的动态
+    const _ = db.command
+    let this1 = this
+    db.collection('cn').where({
+      _id: _.in(this.data._id),
+    })
+    .get({
+      success: function(res) {
+        // res.data 是包含以上定义的两条记录的数组
+        console.log("zheli",res)
+        var task1 = res.data
+        task1.sort(function(a, b) {
+          return b.date < a.date ? 1 : -1
+        })
+        this1.setData({
+          task : task1
+        })
+      }
+    })
   },
+ //获取了数据之后再执行下拉刷新
+ onPullDownRefresh:function(){
+  console.log("下拉刷新")
+  this.getdata(res=>{wx.stopPullDownRefresh();});
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+},
 
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
+  // 页面上拉触底事件的处理函数
   onReachBottom: function () {
 
   },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

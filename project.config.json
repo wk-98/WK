@@ -99,6 +99,13 @@
           "id": -1,
           "name": "pages/tabmy/myconcern",
           "pathName": "pages/tabmy/myconcern",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/tabmy/mycollect",
+          "pathName": "pages/tabmy/mycollect",
           "scene": null
         }
       ]

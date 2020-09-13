@@ -165,7 +165,9 @@ Page({
         fileList:this.data.fileList,
         date: this.data.timestamp,
         time:this.data.date,
-        userInfo:this.data.userInfo
+        userInfo:this.data.userInfo,
+        Bnum:0,
+        Dnum:0
       }
     }).then(res => {      // 插入成功
       //console.log("z发布成功",res)
