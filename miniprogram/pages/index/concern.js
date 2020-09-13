@@ -1,100 +1,92 @@
 // miniprogram/pages/index/concern.js
 
-
+const db =wx.cloud.database();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    task2:null
+    task:[],        //存放动态
+    B_openid:[]     //存放关注人的openID
 
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    
-    this.getdata();
-        
-        
-
+   this.check(); 
    
-
-  },
-  getdata:function(){
-
-    const dbb =wx.cloud.database();
-    const todoss =dbb.collection('test');
-
-    todoss.get().then(res =>{
-     
-      this.setData(
-        {
-          task2:res.data
-        },res =>{
-        console.log("获取数据成功！")
-      
-      }
-      )
-
-
-
-
-    })
-
-    
-
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
+/**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
     console.log('关注')
-    this.getTabBar().init();
+    //this.getTabBar().init();
+    this.getdata(res=>{wx.stopPullDownRefresh();});
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+ //获取关注人的openID
+  check:function(){
+    let this1 = this
+    wx.cloud.callFunction({
+     // 云函数名称
+     name: 'check',
+    data:{
+      a:this.data.B_openid
+    },
+     success: function(res) {
+       //console.log("sfdv",res) 
+       //获取关注人数组中的每个openID
+      for(var i =0 ;i < res.result.a.length; i++){
+        this1.data.B_openid[i] = res.result.a[i]._openid
+      }
+      //console.log(this1.data.B_openid)
+      this1.getdata()
+     },
+     fail: console.error
+   })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
+  //根据关注人的openID数组获取相应的动态
+ getdata:function(){
+   //查询所关注人发布的动态
+   const _ = db.command
+   let this1 = this
+   db.collection('cn').where({
+     _openid: _.in(this.data.B_openid),
+   })
+   .get({
+     success: function(res) {
+       // res.data 是包含以上定义的两条记录的数组
+       console.log("zheli",res)
+       var task1 = res.data
+       task1.sort(function(a, b) {
+         return b.date < a.date ? 1 : -1
+       })
+       this1.setData({
+         task : task1
+       })
+     }
+   })
+ },
+  
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+ //获取了数据之后再执行下拉刷新
+ onPullDownRefresh:function(){
+  console.log("下拉刷新")
+  this.getdata(res=>{wx.stopPullDownRefresh();});
 
-  },
+},
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
+  // 页面上拉触底事件的处理函数
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
+  // 用户点击右上角分享
   onShareAppMessage: function () {
 
   }

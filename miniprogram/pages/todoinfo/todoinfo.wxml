@@ -3,8 +3,11 @@
 
 
 
-<view class="publisher-content" class="info-outline"><!--最外边-->
-
+<view class="publisher-content info-outline"><!--最外边-->
+<view  bindtap="delete" wx:if="{{signal == 2}}">
+<van-icon style="float:right" name="close" size="20px" color="{{ icon_color}}"/>
+<text style="float:right">删除</text>
+</view>
  <view ><!--这是轮播图-->
       <swiper indicator-dots="true"  >
         <block wx:for="{{task.fileList}}" wx:key="unique">
@@ -29,7 +32,16 @@
   fit="cover"
   src="{{task.userInfo.avatarUrl}}"
 />
-<text>{{task.userInfo.nickName}}</text>
+<text class="nickName">{{task.userInfo.nickName}}</text>
+<view  bindtap="concern" wx:if="{{signal < 2 }}">
+<van-icon style="float:right" name="{{icon}}" size="20px" color="{{ icon_color}}"/>
+<text style="float:right">关注</text>
+</view>
+<view  bindtap="unconcern" wx:if="{{signal > 2}}">
+<van-icon style="float:right" name="{{icon}}" size="20px" color="{{ icon_color}}"/>
+<text style="float:right">关注</text>
+</view>
+
 </view><!--这是头像和昵称-->
 
 
@@ -40,9 +52,17 @@
 </view><!--这是发布时间-->
 <van-divider />
 
+
+
+
 <!--这是评论-->
 <view class="comment-outline">
 <block wx:for="{{com}}">
+<view>
+<text>
+{{item.content}}
+</text>
+</view>
 <van-image
   round
   width="2rem"
@@ -50,11 +70,6 @@
   fit="cover"
   src="{{item.userInfo1.avatarUrl}}"
 />
-<view>
-<text>
-{{item.content}}
-</text>
-</view>
 <van-divider />
 </block>
 </view>

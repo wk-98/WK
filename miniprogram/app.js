@@ -1,5 +1,11 @@
 //app.js
 App({
+  globalData : {
+    openid:'',
+    avatarUrl:"",
+    userInfo: {},
+  },
+  flag:2,
   onLaunch: function () {
     
     if (!wx.cloud) {
@@ -13,9 +19,46 @@ App({
         env: 'wk-26412',
         traceUser: true,
       })
+       // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        //console.log(this.globalData.openid)
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              this.globalData.avatarUrl = res.userInfo.avatarUrl,
+              this.globalData.userInfo = res.userInfo
+            }
+          })
+        }
+      }
+    })
+    this.onGetOpenid()
     }
-
     
+    
+
+
+   
   },
-  globalData : {}
+  onGetOpenid: function() {
+    
+    //console.log("app.globalData.openid1",this.globalData.openid)
+    // 调用云函数获取openid,并通过wx.getUserInfo({})获取用户信息
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        //console.log('[云函数] [login] user : ', res)
+       // console.log('[云函数] [login] user openid: ', res.result.openid)
+        this.globalData.openid = res.result.openid
+      },
+      fail: err => {
+        //console.error('[云函数] [login] 调用失败', err)
+      }
+    })
+  }
+  
+
 })
