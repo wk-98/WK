@@ -25,7 +25,11 @@ Page({
   onShow: function () {
     console.log('关注')
     //this.getTabBar().init();
-    this.getdata(res=>{wx.stopPullDownRefresh();});
+    this.setData({
+      task:[],
+      B_openid:[]
+    })
+    this.onLoad()
   },
  //获取关注人的openID
   check:function(){
@@ -42,7 +46,7 @@ Page({
       for(var i =0 ;i < res.result.a.length; i++){
         this1.data.B_openid[i] = res.result.a[i]._openid
       }
-      //console.log(this1.data.B_openid)
+      console.log("测试",this1.data.B_openid)
       this1.getdata()
      },
      fail: console.error
