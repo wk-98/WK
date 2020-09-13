@@ -9,7 +9,8 @@ Page({
     avatarUrl:"",
     userInfo: {},
     logged:false,
-    show: true
+    show: true,
+    num:''
   },
   
 
@@ -25,6 +26,7 @@ Page({
         avatarUrl: app.globalData.avatarUrl,
         logged:true
       })
+      this.check()
     }
      // 获取用户信息
     /*wx.getSetting({
@@ -134,5 +136,25 @@ Page({
     this.setData({
       show: true
     })
-  }
+  },
+  //获取关注人数
+     //获取关注人的用户信息
+     check:function(){
+      let this1 = this
+      wx.cloud.callFunction({
+       // 云函数名称
+       name: 'check',
+      data:{
+        a:this.data.B_openid
+      },
+       success: function(res) {
+         console.log("sfdv",res) 
+        this1.setData({
+          num : res.result.a.length
+        })
+       },
+       fail: console.error
+     })
+    },
+  
 })

@@ -13,21 +13,6 @@
        <view  wx:if="{{logged}}" class="userinfo-nickname-wrapper">
         <view class="userinfo-nickname"  >{{userInfo.nickName}}</view>
         </view>
-   <!--<block model:value="{{logged}}" wx:if="{{!value}}">
-      <image class="userinfo-avatar" src="./user-unlogin.png"></image> 
-       <view class="userinfo-nickname-wrapper">
-        <button class="userinfo-nickname"  bindtap="onGetuserInfo">点击登录</button>
-       </view>
- </block >
- <block  wx:else>
-      <image class="userinfo-avatar" src="{{avatarUrl}}"></image> 
-       <view class="userinfo-nickname-wrapper">
-        <view class="userinfo-nickname"  >{{userInfo.nickName}}</view>
-         <button class="userinfo-nickname"  bindtap="onGetuserInfo">点击登录</button>
-       </view>
- </block>-->
-
-   
 
   </view>
 
@@ -43,7 +28,7 @@
   <!-- 我的收藏 -->
   <view class="uploader">
     <view class="uploader-text" bindtap="navigateTomycollect">
-      <text>我的收藏</text>
+      <text>点赞动态</text>
     </view>
   </view>
 
@@ -51,6 +36,7 @@
   <view class="uploader">
     <view class="uploader-text" bindtap="navigateTomyconcern">
       <text>关注好友</text>
+      <view class="cu-tag round bg-grey sm" style="float:right">{{num}}</view>
     </view>
   </view>
 
@@ -58,15 +44,3 @@
    
 
 </view>
-<!--测试动态显示
-<view  class="userinfo" bindtap="handleTap">
- 
-   <image wx:if="{{show}}" class="userinfo-avatar" src="./user-unlogin.png"></image>
-    <text  wx:if="{{show}}">点击登录</text>
- <text class="dui" wx:if="{{!show}}">×</text>
- <image wx:if="{{!show}}" class="userinfo-avatar" src="./user-unlogin.png"></image>
-</view>
-<view  bindtap="handleTap1">
-  <text>满减</text>
-  <text class="dui" wx:if="{{!show}}">×</text>
-</view>-->

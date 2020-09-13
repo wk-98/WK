@@ -1,2 +1,14 @@
 
-<view>sd</view>
+<view class="cu-list menu-avatar">
+    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{userInfo}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+      <view class="cu-avatar round lg" style="background-image:url({{userInfo[index].avatarUrl}});"></view>
+      <view class="content">
+        <view class="text-grey">{{userInfo[index].nickName}}</view>
+      </view>  
+      <view class="move">
+        <view class="bg-grey">置顶</view>
+        <view class="bg-red">删除</view>
+      </view>
+    </view>
+  </view>
+

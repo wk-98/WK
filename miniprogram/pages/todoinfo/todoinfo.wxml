@@ -1,12 +1,16 @@
 <!--pages/todoinfo/todoinfo.wxml-->
 
 
-
-
 <view class="publisher-content info-outline"><!--最外边-->
-<view  bindtap="delete" wx:if="{{signal == 2}}">
-<van-icon style="float:right" name="close" size="20px" color="{{ icon_color}}"/>
-<text style="float:right">删除</text>
+<view style="float:right" bindtap="delete" wx:if="{{signal == 2}}">
+<van-icon name="close" size="20px" color="{{ icon_color}}"/>
+<text >删除</text>
+</view>
+<view style="float:right" bindtap="dianzan" wx:if="{{flag == 1 && signal != 2}}">
+<van-icon name="/image/dianzan.png" size="35px" />
+</view>
+<view style="float:right" bindtap="cancledianzan" wx:if="{{flag == 2 && signal != 2}}">
+<van-icon name="/image/dianzan(1).png" size="35px" />
 </view>
  <view ><!--这是轮播图-->
       <swiper indicator-dots="true"  >
@@ -19,6 +23,44 @@
     </view><!--这是轮播图-->
 
 
+<view class="main-text"><!--这是内容-->
+<text>
+{{task.concent}}
+</text>
+</view><!--这是内容-->
+
+<view class="user-img-name"><!--这是头像和昵称-->
+<van-image
+  round
+  width="2rem"
+  height="2rem"
+  fit="cover"
+  src="{{task.userInfo.avatarUrl}}"
+/>
+<text class="nickName">{{task.userInfo.nickName}}</text>
+
+
+
+</view><!--这是头像和昵称-->
+
+
+<view class="publish-time"><!--这是发布时间-->
+<text class="publish-time-size">
+{{task.date}}
+</text>
+</view><!--这是发布时间-->
+
+<!--这是关注-->
+<view style="float:right" bindtap="concern" wx:if="{{signal == 1}}">
+<van-icon  name="{{icon}}" size="20px" color="{{ icon_color}}"/>
+<text >关注</text>
+</view>
+<view style="float:right" bindtap="unconcern" wx:if="{{signal == 3}}">
+<van-icon  name="{{icon}}" size="20px" color="{{ icon_color}}"/>
+<text >关注</text>
+</view>
+<!--这是关注-->
+<van-divider />
 
 
 </view><!--最外边-->
@@ -80,4 +122,7 @@
 
 </view>
 
+
+ 
+</van-tabbar>
 
