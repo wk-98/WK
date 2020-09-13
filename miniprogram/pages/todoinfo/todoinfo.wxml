@@ -22,6 +22,7 @@
       </swiper>
     </view><!--这是轮播图-->
 
+
 <view class="main-text"><!--这是内容-->
 <text>
 {{task.concent}}
@@ -62,46 +63,66 @@
 <van-divider />
 
 
+</view><!--最外边-->
+  <view class="cu-list menu-avatar">
+   
+<view class="cu-item">
+ 
+ <view class="cu-avatar round lg" style="background-image:url({{task.userInfo.avatarUrl}});"></view>
+        <view class="content flex-sub">
+          <view>{{task.userInfo.nickName}}</view>
+          <view class="text-gray text-sm flex justify-between">
+            {{task.date}}
+          </view>
 
+         <view class="text-content">
+      {{task.concent}}
+    </view>
+
+           </view>
+            </view>
+             </view>
+    
 
 <!--这是评论-->
 <view class="comment-outline">
-<block wx:for="{{com}}">
-<view>
-<text>
-{{item.content}}
-</text>
+<block wx:for="{{com[0].comment_array}}">
+<view class="cu-list menu-avatar comment solids-top">
+<view class="cu-item">
+        <view class="cu-avatar round" style="background-image:url({{item.userInfo1.avatarUrl}});"></view>
+        <view class="content">
+          <view class="text-grey">{{item.userInfo1.nickName}}</view>
+          <view class="text-gray text-content text-df">
+            {{item.comment_content}}
+          </view>
+         
+          <view class="margin-top-sm flex justify-between">
+            <view class="text-gray text-df">2018年12月4日</view>
+            <view>
+              <text class="cuIcon-appreciatefill text-red"></text>
+              <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+            </view>
+          </view>
+        </view>
+      </view>
 </view>
-<van-image
-  round
-  width="2rem"
-  height="2rem"
-  fit="cover"
-  src="{{item.userInfo1.avatarUrl}}"
-/>
-<van-divider />
 </block>
 </view>
-</view><!--最外边-->
 
 
+<view class="comment_under">
 
-
-
-<van-tabbar class="under-todoinfo" >
-  <!-- <van-tabbar-item icon="chat-o"></van-tabbar-item> -->
-
-<view class="fl_form"> 
-  <form  bindsubmit="onComment">
-  <view>
-  <input  name="comment"  placeholder='评论' class="comment-square" ></input>
+ <view class="cu-bar input">   <!--评论框-->
+  
+   <!--用于测试双向数据绑定的input-->
+  <input class="solid-bottom" focus="{{false}}" maxlength="300" cursor-spacing="10" placeholder='此处写入评论内容' class="weui-input" data-item="info" bindinput="Comment_inputedit" name="manager" value="{{info}}" />
+  <!--用于测试双向数据绑定的按钮-->
+  <button class="cu-btn bg-blue shadow-blur" bindtap='Comment_btnClick'>评论</button>
   </view>
-<view>
-<button form-type="submit" class="comment-icon">评论</button>
+
 </view>
 
-</form>
-</view>
 
  
 </van-tabbar>
+

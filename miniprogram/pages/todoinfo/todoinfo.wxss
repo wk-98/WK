@@ -38,24 +38,13 @@ swiper image{
   size: mini;
   
 }
-.fl_form{
-
-  display: flex;
-  flex-direction: row-reverse;
-
-}
-.comment-square{
-  
-  background-color: aqua;
-}
 .comment-outline{
 
   display: flex;
   flex-direction:column-reverse;
 
 }
-.publisher-content view{
-  display: flex!important;
-  justify-content: start;
-  align-items: center;
+.comment_under{
+
+  margin-bottom: 0.5rem;
 }

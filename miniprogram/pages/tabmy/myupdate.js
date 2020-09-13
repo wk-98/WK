@@ -53,6 +53,7 @@ Page({
 getdata:function(callback){
 
     //console.log("传过来的_openid",this.data._openid)
+
   if(!callback){
     callback = res =>{}
   }
@@ -74,6 +75,7 @@ getdata:function(callback){
       },res =>{
       //   console.log("拿数据前"+ this.data.task_length)
       // console.log("拿数据后"+this.data.task.length)
+
       //console.log("获取数据成功！")
       if( this.data.task_length== this.data.task.length){
         //console.log("没有数据更新")
@@ -83,6 +85,8 @@ getdata:function(callback){
         //console.log("加20分页")
         console.log("这里是task11",this.data.task)
       }  //console.log("当前过滤页数"+this.pagedata.skip)
+
+  
      
       wx.hideLoading({
         success: (res) => {},
@@ -98,7 +102,9 @@ pagedata:{
 },
  //获取了数据之后再执行下拉刷新
  onPullDownRefresh:function(){
+
   //console.log("下拉刷新")
+
   this.getdata(res=>{wx.stopPullDownRefresh();});
 
 },
@@ -106,7 +112,9 @@ pagedata:{
 onReachBottom:function(){
 
   this.getdata(res =>{});
+
   //console.log("底部刷新")
+
 
 },
   /**
@@ -114,8 +122,10 @@ onReachBottom:function(){
    */
   onReady: function () {
 
+
   }
 
  
+
   
 })

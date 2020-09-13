@@ -39,6 +39,7 @@ App({
     
     
 
+
    
   },
   onGetOpenid: function() {
@@ -59,4 +60,5 @@ App({
     })
   }
   
+
 })

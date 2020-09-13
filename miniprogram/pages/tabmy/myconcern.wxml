@@ -1,3 +1,4 @@
+
 <view class="cu-list menu-avatar">
     <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{userInfo}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
       <view class="cu-avatar round lg" style="background-image:url({{userInfo[index].avatarUrl}});"></view>
@@ -10,3 +11,4 @@
       </view>
     </view>
   </view>
+
