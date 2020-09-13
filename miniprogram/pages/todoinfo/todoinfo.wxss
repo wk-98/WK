@@ -54,3 +54,8 @@ swiper image{
   flex-direction:column-reverse;
 
 }
+.publisher-content view{
+  display: flex!important;
+  justify-content: start;
+  align-items: center;
+}

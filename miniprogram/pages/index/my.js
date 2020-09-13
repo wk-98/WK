@@ -53,7 +53,7 @@ Page({
    */
   onShow: function () {
     console.log('我的')
-    this.getTabBar().init();
+   
   },
 
   onGetuserInfo(e){

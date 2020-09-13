@@ -3,7 +3,7 @@
 
 
 
-<view class="publisher-content" class="info-outline"><!--最外边-->
+<view class="publisher-content info-outline"><!--最外边-->
 <view  bindtap="delete" wx:if="{{signal == 2}}">
 <van-icon style="float:right" name="close" size="20px" color="{{ icon_color}}"/>
 <text style="float:right">删除</text>
@@ -32,7 +32,7 @@
   fit="cover"
   src="{{task.userInfo.avatarUrl}}"
 />
-<text >{{task.userInfo.nickName}}</text>
+<text class="nickName">{{task.userInfo.nickName}}</text>
 <view  bindtap="concern" wx:if="{{signal < 2 }}">
 <van-icon style="float:right" name="{{icon}}" size="20px" color="{{ icon_color}}"/>
 <text style="float:right">关注</text>

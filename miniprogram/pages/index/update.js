@@ -18,7 +18,7 @@ Page({
   },
   onShow: function () {
    
-    this.getTabBar().init();
+    
     
   },
   //上传照片

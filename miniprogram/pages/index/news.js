@@ -27,7 +27,7 @@ Page({
    */
   onShow: function () {
     console.log('消息')
-    this.getTabBar().init();
+   
   },
 
   onClick:function(event) {
