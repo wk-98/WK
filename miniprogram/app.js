@@ -28,15 +28,18 @@ App({
           wx.getUserInfo({
             success: res => {
               this.globalData.avatarUrl = res.userInfo.avatarUrl,
-              this.globalData.userInfo = res.userInfo,
-              this.onGetOpenid()
+              this.globalData.userInfo = res.userInfo
             }
           })
         }
       }
     })
+    this.onGetOpenid()
     }
     
+    
+
+   
   },
   onGetOpenid: function() {
     
