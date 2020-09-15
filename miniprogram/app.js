@@ -6,11 +6,12 @@ App({
     userInfo: {},
   },
   flag:2,
+  flag1:'',    //标记点赞状态，首页自动刷新
+  flag2:false, //标志评论事件，首页自动刷新
   onLaunch: function () {
-    
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
+    } else {  
       wx.cloud.init({
         // env 参数说明：
         //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
@@ -37,10 +38,6 @@ App({
     this.onGetOpenid()
     }
     
-    
-
-
-   
   },
   onGetOpenid: function() {
     
@@ -53,9 +50,42 @@ App({
         //console.log('[云函数] [login] user : ', res)
        // console.log('[云函数] [login] user openid: ', res.result.openid)
         this.globalData.openid = res.result.openid
+        this.monitor()
       },
       fail: err => {
         //console.error('[云函数] [login] 调用失败', err)
+      }
+    })
+  },
+
+  monitor:function(){
+    //监听数据库消息
+    const db = wx.cloud.database()
+    db.collection('message').where({
+      B_openid:this.globalData.openid
+    }).watch({
+      onChange: snapshot=> {
+        //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
+        console.log('docs\'s changed events', snapshot.docChanges)
+        // if(snapshot.docChanges.length != 0){
+        //   let message = []
+        //   for(let i = 0; i < snapshot.docChanges.length; i++){
+        //     message[i] = snapshot.docChanges[i].doc
+        //   }
+        //   console.log("消息数组",message)
+        //   wx.cloud.callFunction({
+        //     name : 'notice',
+        //     data:{
+        //       message : message
+        //     },
+        //     success : res =>{
+        //       console.log("消息云函数调用成功")
+        //     }
+        //   })
+        // }
+      },
+      onError: err=> {
+        console.error('the watch closed because of error', err)
       }
     })
   }

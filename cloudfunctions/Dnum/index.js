@@ -3,11 +3,9 @@ const cloud = require('wx-server-sdk')
 
 cloud.init()
 const db = cloud.database();
-// 云函数入口函数
-//传入动态的_id; type类型标志，1是点赞，点赞数加1，2是取消点赞，点赞数减1
+// 云函数入口函数,3是添加评论数，评论条数加1;4是删除评论，评论数减1
 exports.main = async (event, context) => {
-console.log(event)
-let num = 0;
+  let num = 0;
 
     await db.collection('cn').where({
       // 查询条件
@@ -17,15 +15,15 @@ let num = 0;
     .then(res => {
       // 查询数据成功
       console.log("asfdfvfd",res)  
-      if(event.type == 1){
-        num = res.data[0].Bnum + 1
+      if(event.type == 3){
+        num = res.data[0].Dnum + 1
       }
-      if(event.type == 2){
-        num = res.data[0].Bnum - 1
+      if(event.type == 4){
+        num = res.data[0].Dnum - 1
       }
       db.collection("cn").doc(event._id).update({
                 data:{
-                  Bnum:num
+                  Dnum:num
                 },
                 success: res =>{
                   console.log("更新成功")
