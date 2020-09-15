@@ -150,26 +150,15 @@ Page({
   add:function(){
 
     const app = getApp()
-
-      //上传动态的时间
-      this.data.timestamp = Date.parse(new Date());
-      this.data.timestamp =this.data.timestamp / 1000;
-      //获取当前时间   存储形式（string）年+"-"+月+"-"+日+" "+时+":"+分
-      var n = this.data.timestamp * 1000;
-      this.data.date = new Date(n);
-      //年
-      var Y =  this.data.date.getFullYear();
-      //月
-      var M = ( this.data.date.getMonth() + 1 < 10 ? '0' + ( this.data.date.getMonth() + 1) :  this.data.date.getMonth() + 1);
-      //日
-      var D =  this.data.date.getDate() < 10 ? '0' +  this.data.date.getDate() :  this.data.date.getDate();
-      //时
-      var h =  this.data.date.getHours();
-      //分
-      var m =  this.data.date.getMinutes();
-      //console.log("当前时间：" +Y+"-"+M+"-"+D+" "+h+":"+m);
-      this.data.timestamp=Y+"-"+M+"-"+D+" "+h+":"+m
-    //数据库插入数据操作
+    let this1 = this
+    wx.cloud.callFunction({
+      name:'time',
+      data:{
+      },
+      success : res =>{
+        console.log(res)
+          this1.data.timestamp = res.result.timestamp,
+          this1.data.date = res.result.date
     cn.add({
       data:{
         concent:this.data.value,
@@ -199,8 +188,9 @@ Page({
     const { fileList = [] } = [];
     this.setData({ fileList });
     this.setData({value:""})
-
-  },
+    }
+    })
+  }
 })
 
   

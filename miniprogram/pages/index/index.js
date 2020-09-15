@@ -21,15 +21,16 @@ Page({
   },
   onShow:function(){
     const app = getApp()
-    console.log("app1",app.flag)
-    if(app.flag==1){
+    console.log("app1",app.flag2)
+    if(app.flag==1 || app.flag1%2 == 0 || app.flag2 == true){
       console.log("onshow")
       this.data.task=[],
       this.data.task_length=null,
       this.data.value=null,
       this.pagedata.skip=0,
       this.onLoad(),
-      app.flag=2
+      app.flag=2,
+      app.flag2 = false
     }
     //发布成功时将全局变量app.flag置为3，跳回首页执行刷新
     if(app.flag==3){

@@ -1,4 +1,7 @@
 
 @import "colorui/icon.wxss";
-@import "colorui/main.wxss"
+@import "colorui/main.wxss";
+.cu-item{
+  margin:5px!important;
+}
 

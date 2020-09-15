@@ -36,10 +36,12 @@ Page({
       b_id: this.data.task._id
     })
     .get().then(res => {
-      
       this.setData({
         com:res.data
       })
+      app.flag2 = true
+      this.Bnum(3)
+      this.message('评论')
     })
 
   },
@@ -52,6 +54,7 @@ Page({
       // console.log(options.id)
       //const app = getApp()
      this.data._id = options.id
+     app.flag1 = 1
       db.collection('cn').doc(options.id).get().then(res => {
         
         if(res.data._openid==app.globalData.openid){
@@ -162,6 +165,7 @@ db.collection('concern').where({
     icon_color:'#f00',
     signal:3
   }) 
+  this.message('关注')
   if(res.data.length){
     //更新数据
     // update 更新操作
@@ -225,6 +229,7 @@ unconcern:function(event){
     icon_color:'#000',
     signal:1
   })
+
  
         // where 查询操作
         db.collection('concern').where({
@@ -323,7 +328,9 @@ dianzan:function(event){
    this.setData({
     flag:2
   }) 
+  app.flag1 = app.flag1 + 1
   this.Bnum(1)
+  this.message('点赞')
    if(res.data.length){
      //更新数据
      // update 更新操作
@@ -384,10 +391,13 @@ dianzan:function(event){
 //取消点赞事件
 cancledianzan:function(event){
   if(app.globalData.openid){
-    console.log("取消关注",event)
+    console.log("取消点赞",event)
     this.setData({
       flag:1
     })   
+    app.flag1 = app.flag1 + 1
+    this.Bnum(2)
+    
           // where 查询操作
           db.collection('concern').where({
             // 查询条件
@@ -425,10 +435,15 @@ cancledianzan:function(event){
 }
 },
 
+//点赞评论触发云函数修改点赞数或者评论数
 Bnum:function(event){
-   // 调用云函数添加评论数和点赞数,type:1是点赞数，2是评论数
+   // 调用云函数添加评论数和点赞数,type:1是点赞，2是取消点赞，3是评论，4是删除评论
+   let name = 'Bnum'
+   if(event == 3 || event == 4){
+     name = 'Dnum'
+   }
    wx.cloud.callFunction({
-    name: 'Bnum',
+    name: name,
     data: {
       type:event,
       _id:this.data._id
@@ -442,6 +457,40 @@ Bnum:function(event){
   })
 },
 
+//点赞评论触发添加消息记录
+message:function(event){
+  let time = ''
+   wx.cloud.callFunction({
+    name:'time',
+    // succes : res =>{
+    //   console.log("谁啊",res)
+    //   time = res.result.timestamp
+    //   console.log("shijian ",time)  
+     
+    // }
+  }).then(res =>{
+      console.log("谁啊",res)
+      time = res.result.timestamp
+      console.log("shijian ",time)  
+      wx.cloud.callFunction({
+    name:'message',
+    data:{
+      type:event,
+      B_openid:this.data.task._openid,
+      _id:this.data._id,
+      time:time
+    },
+    success: res => {
+     console.log(res)
+    },
+    fail: err => {
+      console.error(err)
+    }
+  })
+  })
+ 
+
+},
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
