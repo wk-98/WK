@@ -550,6 +550,33 @@ db.collection('comment').where({
     this.setData({
       info: this.data.info
     })
+  },
+  demo:function(e){
+    console.log(e.currentTarget.dataset.id)
+    var i=e.currentTarget.dataset.id
+    this.data.com[0].comment_array.splice(i, 1);
+    
+    var bbb=this.data.com[0].comment_array;
+    console.log(bbb)
+    console.log(this.data.com[0]._id)
+     db.collection('comment').doc(this.data.com[0]._id).update({
+        // 想要更新后的数据
+        data: {
+           comment_array:bbb
+        }
+      }).then(res => {
+        // 更新数据成功
+        console.log(res),
+        this.getComment();
+      }).catch(err => {
+        // 更新数据失败
+        console.log(err)
+      })
+
+
+
+   
+
   }
  
   
