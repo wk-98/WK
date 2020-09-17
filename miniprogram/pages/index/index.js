@@ -15,8 +15,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("onload")
-      this.getdata();
+    wx.cloud.callFunction({
+      name: 'LoadData',
+      success: res => {
+       
+        console.log("返回发布动态数组:",res.result.data)
+        this.setData({
+
+          
+          task:res.result.data
+          
+        })
+
+
+      },
+      fail: err => {
+        console.error('[云函数] [时间函数] 调用失败：', err)
+      }
+    })
 
   },
   onShow:function(){
@@ -44,11 +60,37 @@ Page({
   //获取了数据之后再执行下拉刷新
   onPullDownRefresh:function(){
     console.log("下拉刷新")
-    this.getdata(res=>{wx.stopPullDownRefresh();});
+    // this.getdata(res=>{wx.stopPullDownRefresh();});
+    wx.cloud.callFunction({
+      name: 'LoadData',
+      success: res => {
+       
+        console.log("返回发布动态数组:",res.result.data)
+        this.setData({
+
+          
+          task:res.result.data
+          
+        })
+        wx.stopPullDownRefresh()
+        wx.showToast({
+          title: '刷新成功',
+          icon: 'sucess'
+        })
+
+      },
+      fail: err => {
+        console.error('[云函数] [时间函数] 调用失败：', err)
+      }
+    })
 
 },
   //获取首页渲染数据
   getdata:function(callback){
+
+
+    
+
 
     console.log("getdata")
     if(!callback){
@@ -63,7 +105,7 @@ Page({
     todos.skip(this.pagedata.skip).get().then(res =>{
       let oldData=this.data.task;
       this.data.task_length=this.data.task.length
-     console.log("shuju res",res)
+     console.log("数据 res",res)
       this.setData(
         {
           task:oldData.concat(res.data)
@@ -97,8 +139,8 @@ Page({
   //下拉刷新
   onReachBottom:function(){
 
-    this.getdata(res =>{});
-    console.log("底部刷新")
+    // this.getdata(res =>{});
+    console.log("触发底部刷新")
 
   },
   pagedata:{

@@ -19,7 +19,7 @@ Page({
     _id:'',     //记住动态的_id
    flag:1,    //标记是否点赞,1是没有点赞，2是已经点赞
     info:'',//评论的内容
-    
+    comment_time:null
   
    
 
@@ -30,6 +30,23 @@ Page({
     
   },
 
+  GetComment_time(){
+
+    wx.cloud.callFunction({
+      name: 'time',
+      success: res => {
+       
+        console.log("返回当前发布时间",res)
+
+          this.data.comment_time=res.result.timestamp
+          console.log("当前评论时间：",this.data.comment_time)
+
+      },
+      fail: err => {
+        console.error('[云函数] [时间函数] 调用失败：', err)
+      }
+    })
+  },
   getComment:function(){
 
     db.collection('comment').where({
@@ -514,76 +531,107 @@ message:function(event){
 
     console.log("评论内容:",this.data.info);
     let aaa=this.data.info;
+    if(this.data.info!=""){
+    wx.cloud.callFunction({
+      name: 'time',
+      success: res => {
+       
 
-    if(this.data.info!="")
-    {
-
-      const db = wx.cloud.database()
-      const _ = db.command
-        // where 查询操作
-db.collection('comment').where({
-    b_id:this.data.task._id
-  })
-  .get()
-  .then(res => {
-    // 查询数据成功
-    console.log("查询该人是否有评论",res)
-    
-    if(res.data.length){
-      //更新数据
-      // update 更新操作
-      // primary key 要更新的那条数据的主键id
-      db.collection('comment').doc(res.data[0]._id)
-      .update({
-        // 想要更新后的数据
-        data: {
-           comment_array:_.push(
-          [{
-                   comment_content:aaa,
-                   userInfo1:this.data.userInfo1
-              }]
-
-    )
-        }
-      }).then(res => {
-        // 更新数据成功
-        console.log(res),
-        this.getComment();
-      }).catch(err => {
-        // 更新数据失败
-        console.log(err)
-      })
-  
-    }else{
-      //插入数据
-      // add 插入操作
-      db.collection('comment').add({
-        // 要插入的数据
-        data: {
-            b_id:this.data.task._id,
-                comment_array:[{
-                   comment_content:aaa,
-                   userInfo1:this.data.userInfo1,
-              }]
-        }
-      }).then(res => {
-        // 插入数据成功
-        console.log("插入成功",res),
-        this.getComment();
-      }).catch(err => {
-        // 插入数据失败
-        console.log("插入失败",err)
-      })
-    }
-  }).catch(err => {
-    // 查询数据失败
-    console.log(err)
-    
-  })
+          this.data.comment_time=res.result.timestamp
+          console.log("当前评论时间：",this.data.comment_time)
 
 
+          //更新评论代码区
 
-    }else{
+          
+          
+      
+            const db = wx.cloud.database()
+            const _ = db.command
+              // where 查询操作
+      db.collection('comment').where({
+          b_id:this.data.task._id
+        })
+        .get()
+        .then(res => {
+          // 查询数据成功
+          console.log("查询该人是否有评论",res)
+          
+          if(res.data.length){
+            //更新数据
+      
+           
+            db.collection('comment').doc(res.data[0]._id)
+            .update({
+              // 想要更新后的数据
+              data: {
+                 comment_array:_.push(
+                [{      
+                         comment_content:aaa,
+                         comment_time:this.data.comment_time,
+                         userInfo1:this.data.userInfo1
+                    }]
+      
+          )
+              }
+            }).then(res => {
+              // 更新数据成功
+              console.log(res)
+        wx.showToast({
+          title: '评论成功',
+          icon: 'sucess'
+        })
+              this.getComment();
+            }).catch(err => {
+              // 更新数据失败
+              console.log(err)
+            })
+        
+          }else{
+            //插入数据
+            // add 插入操作
+            db.collection('comment').add({
+              // 要插入的数据
+              data: {
+                  b_id:this.data.task._id,
+                      comment_array:[{
+                         comment_content:aaa,
+                         comment_time:this.data.comment_time,
+                         userInfo1:this.data.userInfo1,
+                    }]
+              }
+            }).then(res => {
+              // 插入数据成功
+              console.log("插入成功",res)
+        wx.showToast({
+          title: '评论成功',
+          icon: 'sucess'
+        })
+              this.getComment();
+            }).catch(err => {
+              // 插入数据失败
+              console.log("插入失败",err)
+            })
+          }
+        }).catch(err => {
+          // 查询数据失败
+          console.log(err)
+          
+        })
+      
+      
+      
+          
+
+
+          //更新评论代码区
+          
+          
+      },
+      fail: err => {
+        console.error('[云函数] [时间函数] 调用失败：', err)
+      }
+    })}else{
       wx.showToast({
         title: '请填写评论内容',
         icon: 'none'
@@ -591,6 +639,8 @@ db.collection('comment').where({
       console.log("没有填写评论内容")
 
     }
+
+   
     
 
     //对数据层的info属性更新
@@ -600,7 +650,7 @@ db.collection('comment').where({
       info: this.data.info
     })
   },
-  demo:function(e){
+  delete_comment:function(e){
     console.log(e.currentTarget.dataset.id)
     var i=e.currentTarget.dataset.id
     this.data.com[0].comment_array.splice(i, 1);
@@ -615,7 +665,11 @@ db.collection('comment').where({
         }
       }).then(res => {
         // 更新数据成功
-        console.log(res),
+        console.log(res)
+  wx.showToast({
+    title: '删除评论成功',
+    icon: 'sucess'
+  })
         this.getComment();
       }).catch(err => {
         // 更新数据失败
@@ -626,7 +680,8 @@ db.collection('comment').where({
 
    
 
-  }
+  },
+
  
   
 
