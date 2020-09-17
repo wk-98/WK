@@ -1,6 +1,7 @@
 // miniprogram/pages/index/update.js
 const db = wx.cloud.database();
 const cn = db.collection('cn');
+const app = getApp();
 Page({
 
   /**
@@ -17,7 +18,10 @@ Page({
     
   },
   onShow: function () {
-   
+    // if(app.flag3 == true){
+    //   wx.showTabBarRedDot({index : 3})
+    //   app.flag3 = false
+    // }
     
     
   },
@@ -96,60 +100,75 @@ Page({
   //提交发布数据，已授权直接发布
 
   Onsubmit:function(event){
-    //不能发布空内容
-    if(this.data.value != '' || this.data.fileList.length != 0){
-       const app =getApp()
-    if (event.detail.userInfo) {
-      this.setData({
-        avatarUrl: event.detail.userInfo.avatarUrl,
-
-        userInfo: event.detail.userInfo,
-      })
-     // console.log("app.globalData:",app.globalData.openid)
-     //第一次授权，将用户信息写进全局变量中
-      if(!app.globalData.openid){
-        app.globalData.avatarUrl = this.data.avatarUrl
-          app.globalData.userInfo = this.data.userInfo
-          wx.cloud.callFunction({
-            name: 'login',
-            data: {},
-            success: res => {
-              console.log('[云函数] [login] user : ', res)
-              //console.log('[云函数] [login] user openid: ', res.result.openid)
-              app.globalData.openid = res.result.openid
-            
-            },
-            fail: err => {
-              console.error('[云函数] [login] 调用失败', err)
-            }
-          })
-          
+    if(JSON.stringify(app.globalData.userInfo)!="{}"){
+      if(this.data.value != '' || this.data.fileList.length != 0){
+        this.add()
+      }else{
+        wx.showModal({
+          title: '提示',
+          content: '不能发布空内容',
+          confirmText:'重新发布',
+          showCancel: false,
+        })
       }
-
-      this.add()
     }else{
       wx.showModal({
         title: '提示',
-        content: '发布动态需要获取您的用户信息，您拒绝了授权，如需发布请重新进行授权发布',
-        confirmText:'重新发布',
+        content: '发布动态需要获取您的用户信息，请先登录',
+        confirmText:'登录',
         showCancel: false,
       })
     }
 
-    }else{
-      wx.showModal({
-        title: '提示',
-        content: '不能发布空内容',
-      })
-    }
+
+    // //不能发布空内容
+    // if(this.data.value != '' || this.data.fileList.length != 0){
+    //    const app =getApp()
+    // if (event.detail.userInfo) {
+    //   //新改，2020-09-16
+    //      app.globalData.avatarUrl = this.data.avatarUrl
+    //       app.globalData.userInfo = this.data.userInfo
+    //       this.setData({
+    //     avatarUrl: event.detail.userInfo.avatarUrl,
+    //     userInfo: event.detail.userInfo,
+    //   })
+
+    //   wx.cloud.callFunction({
+    //     name:'adduser',
+    //     data:{
+    //       userInfo:event.detail.userInfo
+    //     },
+    //     success :res =>{
+    //       console.log("调用云函数成功")
+    //       app.globalData.openid = res.result.openid
+    //     }
+    //   })
+
+      //新改，2020-09-16
+
+
+    //   this.add()
+    // }else{
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '发布动态需要获取您的用户信息，您拒绝了授权，如需发布请重新进行授权发布',
+    //     confirmText:'重新发布',
+    //     showCancel: false,
+    //   })
+    // }
+
+    // }else{
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '不能发布空内容',
+    //   })
+    // }
    
 
   
   },
   //将数据添加到数据库
   add:function(){
-
-    const app = getApp()
     let this1 = this
     wx.cloud.callFunction({
       name:'time',
@@ -165,7 +184,7 @@ Page({
         fileList:this.data.fileList,
         date: this.data.timestamp,
         time:this.data.date,
-        userInfo:this.data.userInfo,
+        userInfo:app.globalData.userInfo,
         Bnum:0,
         Dnum:0
       }

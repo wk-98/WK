@@ -4,10 +4,15 @@ App({
     openid:'',
     avatarUrl:"",
     userInfo: {},
+    message : [],
   },
   flag:2,
   flag1:'',    //标记点赞状态，首页自动刷新
   flag2:false, //标志评论事件，首页自动刷新
+  flag3:false,  //标志小红点的显示
+  logged:false, //判断登录授权
+ 
+  
   onLaunch: function () {
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -20,75 +25,159 @@ App({
         env: 'wk-26412',
         traceUser: true,
       })
-       // 获取用户信息
+       // 检查授权情况，获取用户信息
+       console.log("1")
+       // 查看是否授权
+       let this1 = this
     wx.getSetting({
-      success: res => {
-        //console.log(this.globalData.openid)
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.globalData.avatarUrl = res.userInfo.avatarUrl,
-              this.globalData.userInfo = res.userInfo
-            }
-          })
-        }
+      success: function (res) {
+          if (res.authSetting['scope.userInfo']) {
+              wx.getUserInfo({
+                  success: function (res) {
+                      //从数据库获取用户信息
+                      // wx.cloud.callFunction({
+                      //   name:'login',
+                      //   success:res
+                      // })
+                      wx.cloud.callFunction({
+                        name:'checkuser',
+                        success:res=>{
+                          console.log("获取用户信息成功",res.result)
+                          this1.globalData.userInfo = res.result.userInfo
+                          this1.globalData.avatarUrl = res.result.avatarUrl
+                          this1.globalData.openid = res.result.openid
+                          this1.logged = true
+                          // 监听数据库消息
+                          const db = wx.cloud.database()
+                          console.log("开始监听")
+                          db.collection('message').where({
+                            B_openid : this1.globalData.openid,
+                            // status:0
+                          }).watch({
+                              onChange: snapshot=> {
+                              //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
+                                console.log('docs\'s changed events', snapshot.docChanges)
+                                if(snapshot.docChanges.length != 0){
+                                  this1.flag3 = true
+                                  wx.showTabBarRedDot({index : 3})
+                                  for(let i = 0; i < snapshot.docChanges.length; i++){
+                                    this1.globalData.message[i] = snapshot.docChanges[i].doc
+                                  }
+                                  console.log("消息数组", this1.globalData.message)
+                                  //wx.showTabBarRedDot({index : 3})
+                                }
+                              },
+                              onError: err=> {
+                                console.error('the watch closed because of error', err)
+                              }
+                           })
+                        },
+                        fail:err=>{
+                          console.log("获取用户信息失败",err)
+                        }
+                      })
+                  }
+              })
+          }
       }
-    })
-    this.onGetOpenid()
+  })
+       //this.ongetopenid()
+       //修改2020-09-16
+      //  let this1 = this
+      //  wx.cloud.callFunction({
+      //   name: 'checkuser',
+      //   success: res => {
+      //   console.log('[云函数] [login] user : ', res)
+      //    console.log('[云函数] [login] user openid: ', res.result.userInfo)
+      //   if(JSON.stringify(res.result.userInfo)!="{}"){
+      //      this.globalData.userInfo = res.result.userInfo
+      //     this.globalData.avatarUrl = res.result.avatarUrl
+      //     this.globalData.openid = res.result.openid
+
+      //   }else{
+      //     console.log("没有该用户")
+      //   }
+      //   console.log("this.glob",this.globalData.userInfo)
+      //  },
+      //   fail: err => {
+      //   //console.error('[云函数] [login] 调用失败', err)
+      //   }
+      // })
+       //修改2020-09-16
+    
     }
     
   },
-  onGetOpenid: function() {
-    
-    //console.log("app.globalData.openid1",this.globalData.openid)
-    // 调用云函数获取openid,并通过wx.getUserInfo({})获取用户信息
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        //console.log('[云函数] [login] user : ', res)
-       // console.log('[云函数] [login] user openid: ', res.result.openid)
-        this.globalData.openid = res.result.openid
-        this.monitor()
-      },
-      fail: err => {
-        //console.error('[云函数] [login] 调用失败', err)
-      }
-    })
-  },
+ 
 
-  monitor:function(){
-    //监听数据库消息
-    const db = wx.cloud.database()
-    db.collection('message').where({
-      B_openid:this.globalData.openid
-    }).watch({
-      onChange: snapshot=> {
-        //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
-        console.log('docs\'s changed events', snapshot.docChanges)
-        // if(snapshot.docChanges.length != 0){
-        //   let message = []
-        //   for(let i = 0; i < snapshot.docChanges.length; i++){
-        //     message[i] = snapshot.docChanges[i].doc
-        //   }
-        //   console.log("消息数组",message)
-        //   wx.cloud.callFunction({
-        //     name : 'notice',
-        //     data:{
-        //       message : message
-        //     },
-        //     success : res =>{
-        //       console.log("消息云函数调用成功")
-        //     }
-        //   })
-        // }
-      },
-      onError: err=> {
-        console.error('the watch closed because of error', err)
-      }
-    })
+  // monitor:function(){
+  //   //监听数据库消息
+  //   const db = wx.cloud.database()
+  //   db.collection('message').where({
+  //     B_openid : this.globalData.openid
+  //   }).
+  //     watch({
+  //     onChange: snapshot=> {
+  //       //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
+  //       console.log('docs\'s changed events', snapshot.docChanges)
+  //       if(snapshot.docChanges.length != 0){
+  //         this.flag3 = true
+  //            wx.showTabBarRedDot({index : 3})
+  //         for(let i = 0; i < snapshot.docChanges.length; i++){
+  //           this.globalData.message[i] = snapshot.docChanges[i].doc
+  //         }
+  //         console.log("消息数组", this.globalData.message)
+  //         //wx.showTabBarRedDot({index : 3})
+  //       }
+  //     },
+  //     onError: err=> {
+  //       console.error('the watch closed because of error', err)
+  //     }
+  //   })
+  // },
+  // onShow:function(){
+  //   wx.cloud.callFunction({
+  //     name: 'login',
+  //     data: {},
+  //     success: res => {
+  //       //console.log('[云函数] [login] user : ', res)
+  //      // console.log('[云函数] [login] user openid: ', res.result.openid)
+  //       this.globalData.openid = res.result.openid
+  //       console.log("开始监听",this.globalData.openid)
+   
+  //   //监听数据库消息
+  //   const db = wx.cloud.database()
+  //   db.collection('message').where({
+  //     B_openid : this.globalData.openid
+  //   }).
+  //     watch({
+  //     onChange: snapshot=> {
+  //       //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
+  //       console.log('docs\'s changed events', snapshot.docChanges)
+  //       if(snapshot.docChanges.length != 0){
+  //         this.flag3 = true
+  //            wx.showTabBarRedDot({index : 3})
+  //         for(let i = 0; i < snapshot.docChanges.length; i++){
+  //           this.globalData.message[i] = snapshot.docChanges[i].doc
+  //         }
+  //         console.log("消息数组", this.globalData.message)
+  //         //wx.showTabBarRedDot({index : 3})
+  //       }
+  //     },
+  //     onError: err=> {
+  //       console.error('the watch closed because of error', err)
+  //     }
+  //   })
+        
+  //     },
+  //     fail: err => {
+  //       //console.error('[云函数] [login] 调用失败', err)
+  //     }
+  //   })
+    
+  // },
+  onHide:function(){
+    watcher.close()
   }
-  
 
 })

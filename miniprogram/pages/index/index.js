@@ -1,5 +1,5 @@
 
-
+const app = getApp();
 Page({
 
   /**
@@ -17,10 +17,12 @@ Page({
   onLoad: function (options) {
     console.log("onload")
       this.getdata();
+     // this.monitor()
+     
 
   },
   onShow:function(){
-    const app = getApp()
+    // app.flag3 = true
     console.log("app1",app.flag2)
     if(app.flag==1 || app.flag1%2 == 0 || app.flag2 == true){
       console.log("onshow")
@@ -36,6 +38,10 @@ Page({
     if(app.flag==3){
       this.onPullDownRefresh()
       app.flag=2
+    }
+    if(app.flag3 == true){
+      wx.showTabBarRedDot({index : 3})
+      app.flag3 = false
     }
 
   },
@@ -111,6 +117,32 @@ Page({
 
       console.log(event.detail)
 
-  }
+  },
+
+
+  //  monitor:function(){
+  //   //监听数据库消息
+  //   const db = wx.cloud.database()
+  //   db.collection('message').where({
+  //     B_openid:app.globalData.openid
+  //   }).watch({
+  //     onChange: snapshot=> {
+  //       //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
+  //       console.log('docs\'s changed events', snapshot.docChanges)
+  //       if(snapshot.docChanges.length != 0){
+  //         this.flag3 = true
+  //         let message = []
+  //         for(let i = 0; i < snapshot.docChanges.length; i++){
+  //           message[i] = snapshot.docChanges[i].doc
+  //         }
+  //         console.log("消息数组",message)
+  //         //wx.showTabBarRedDot({index : 3})
+  //       }
+  //     },
+  //     onError: err=> {
+  //       console.error('the watch closed because of error', err)
+  //     }
+  //   })
+  // }
 
 })
