@@ -1,6 +1,7 @@
 // miniprogram/pages/index/concern.js
 
 const db =wx.cloud.database();
+const app = getApp();
 Page({
 
   /**
@@ -30,6 +31,10 @@ Page({
       B_openid:[]
     })
     this.onLoad()
+    // if(app.flag3 == true){
+    //   wx.showTabBarRedDot({index : 3})
+    //   app.flag3 = false
+    // }
   },
  //获取关注人的openID
   check:function(){

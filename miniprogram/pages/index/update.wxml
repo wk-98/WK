@@ -20,7 +20,11 @@
 		<textarea fixed='true' contenteditable="true" contenteditable="true" auto-height="true" maxlength="-1"  model:value="{{value}}" bindinput="bindTextAreaChange" placeholder='Mood at the moment' ></textarea>
 	</view>
   <van-uploader file-list="{{ fileList }}" max-count="3" deletable="{{ true }}"  bind:after-read="afterRead" bind:delete="Ondelete"/>
-<button class="button" size="mini" open-type="getUserInfo" bindgetuserinfo="Onsubmit" >上传</button>
+  <!--
+    <button class="button" size="mini" open-type="getUserInfo" bindgetuserinfo="Onsubmit" >上传</button>
+  -->
+  <button class="button" size="mini" bindtap="Onsubmit">发布</button>
+
 </form>
 
 

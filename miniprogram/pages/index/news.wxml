@@ -2,12 +2,80 @@
 
 
 <van-tabs animated bind:click="onClick">
+ 
 
-  <van-tab title="评论">评论</van-tab>
- <van-tab title="赞">赞</van-tab>
+  <van-tab title="评论">
+    <block wx:for="{{message}}">
+      <navigator url="../todoinfo/todoinfo?id={{item.DT_id}}">
+    <view  wx:if="{{item.type == '评论' }}" class="cu-list menu-avatar">
+    <view class="cu-item">
+      <view class="cu-avatar round lg" style="background-image:url({{item.userInfo.avatarUrl}});"></view>
+      <view class="content">
+        <view class="text-grey">{{item.userInfo.nickName}}</view>
+      
+        <view class="text-gray text-sm flex">
+          <text wx:if="{{item.content}}" class="text-cut">
+							<text wx:if="{{item.status == 0}}" class="cuIcon-infofill text-red  margin-right-xs"></text>{{item.content}}
+          </text>
+        </view>
+      </view>
+      <view class="action">
+        <view class="text-grey text-xs">{{item.time}}</view>
+      </view>
+    </view>
  
+  </view> 
+</navigator>
+</block>
+  </van-tab>
+
+ <van-tab title="关注">
+  <block wx:for="{{message}}"> 
+      <view  wx:if="{{item.type == '关注'}}" class="cu-list menu-avatar">
+    <view class="cu-item">
+      <view class="cu-avatar round lg" style="background-image:url({{item.userInfo.avatarUrl}});"></view>
+      <view class="content">
+        <view class="text-grey">{{item.userInfo.nickName}}</view>
+        <view class="text-gray text-sm flex">
+          <text class="text-cut">
+							<text wx:if="{{item.status == 0}}" class="cuIcon-infofill text-red  margin-right-xs"></text>关注了你
+          </text>
+        </view>
+        
+      </view>
+      <view class="action">
+        <view class="text-grey text-xs">{{item.time}}</view>
+      </view>
+    </view>
  
+  </view>
+</block>
+ </van-tab>
+ <van-tab title="点赞">
+    <block wx:for="{{message}}">
+      <navigator url="../todoinfo/todoinfo?id={{item.DT_id}}">
+    <view  wx:if="{{item.type == '点赞' }}" class="cu-list menu-avatar">
+    <view class="cu-item">
+      <view class="cu-avatar round lg" style="background-image:url({{item.userInfo.avatarUrl}});"></view>
+      <view class="content">
+        <view class="text-grey">{{item.userInfo.nickName}}</view>
+        <view class="text-gray text-sm flex">
+          <text class="text-cut">
+							<text wx:if="{{item.status == 0}}" class="cuIcon-infofill text-red  margin-right-xs"></text>给你点赞了
+          </text>
+        </view>
+       
+      </view>
+      <view class="action">
+        <view class="text-grey text-xs">{{item.time}}</view>
+      </view>
+    </view>
+ 
+
+  </view> 
+</navigator>
+</block>
+  </van-tab>
+
 </van-tabs>
 
-<!-- <button class="cu-btn round line-red " bindtap="demo">测试云函数</button>
-<text>{{comment_time}}</text> -->

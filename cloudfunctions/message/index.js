@@ -9,14 +9,17 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   console.log(event) 
-  await db.collection('message').add({
+  try{
+   await  db.collection('message').add({
     data : {
       type:event.type,
       B_openid:event.B_openid,      //被（点赞/关注/评论）人的openid
       _openid:wxContext.OPENID,     //发起点赞/关注/评论）人的openid
+      userInfo:event.userInfo,
       status:0,                     //消息读取状态，0未读取
       DT_id:event._id,
-      time:event.time
+      time:event.time,
+      content:event.content
     },
     succes : res =>{
       // 在返回结果中会包含新创建的记录的 _id
@@ -26,6 +29,12 @@ exports.main = async (event, context) => {
       console.error("插入失败",err)
     }
   })  
+  }catch(err){
+    console.log(err)
+
+  }
+  
+  
 }
 
 

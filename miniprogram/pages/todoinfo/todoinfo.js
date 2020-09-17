@@ -19,6 +19,10 @@ Page({
     _id:'',     //记住动态的_id
    flag:1,    //标记是否点赞,1是没有点赞，2是已经点赞
     info:'',//评论的内容
+
+    content:''  //记住评论内容
+    
+
     comment_time:null
   
    
@@ -56,9 +60,9 @@ Page({
       this.setData({
         com:res.data
       })
-      app.flag2 = true
-      this.Bnum(3)
-      this.message('评论')
+      // app.flag2 = true
+      // this.Bnum(3)
+      // this.message('评论')
     })
 
   },
@@ -72,6 +76,7 @@ Page({
       //const app = getApp()
      this.data._id = options.id
      app.flag1 = 1
+     app.flag3 = false
       db.collection('cn').doc(options.id).get().then(res => {
         
         if(res.data._openid==app.globalData.openid){
@@ -116,6 +121,11 @@ Page({
         }
       })
   },
+
+onShow:function(){
+  // app.flag3 = false
+},
+
   //检查是否已经关注了该用户
   chexk:function(){
     //const app = getApp() 
@@ -166,7 +176,7 @@ concern:function(event){
  //const db = wx.cloud.database()
  //const _ = db.command
   //const app = getApp() 
-  if(app.globalData.openid){
+  if(JSON.stringify(app.globalData.userInfo)!="{}"){
    console.log("openid",app.globalData.openid)
 // where 查询操作
 db.collection('concern').where({
@@ -239,7 +249,7 @@ db.collection('concern').where({
    
 },
 unconcern:function(event){
-  if(app.globalData.openid){
+  if(JSON.stringify(app.globalData.userInfo)!="{}"){
   console.log("取消关注",event)
   this.setData({
     icon:'like-o',
@@ -332,7 +342,7 @@ delete(){
 
 //点赞事件
 dianzan:function(event){
-  if(app.globalData.openid){
+  if(JSON.stringify(app.globalData.userInfo)!="{}"){
     console.log("openid",app.globalData.openid)
  // where 查询操作
  db.collection('concern').where({
@@ -407,7 +417,7 @@ dianzan:function(event){
 
 //取消点赞事件
 cancledianzan:function(event){
-  if(app.globalData.openid){
+  if(JSON.stringify(app.globalData.userInfo)!="{}"){
     console.log("取消点赞",event)
     this.setData({
       flag:1
@@ -476,6 +486,7 @@ Bnum:function(event){
 
 //点赞评论触发添加消息记录
 message:function(event){
+
   let time = ''
    wx.cloud.callFunction({
     name:'time',
@@ -489,13 +500,20 @@ message:function(event){
       console.log("谁啊",res)
       time = res.result.timestamp
       console.log("shijian ",time)  
-      wx.cloud.callFunction({
+      console.log("yonhu",app.globalData.userInfo)
+      wx.showToast({
+        title: app.globalData.userInfo.nickName,
+      })
+      if(JSON.stringify(app.globalData.userInfo)!="{}"){
+         wx.cloud.callFunction({
     name:'message',
     data:{
       type:event,
       B_openid:this.data.task._openid,
+      userInfo:app.globalData.userInfo,
       _id:this.data._id,
-      time:time
+      time:time,
+      content:this.data.content
     },
     success: res => {
      console.log(res)
@@ -504,6 +522,12 @@ message:function(event){
       console.error(err)
     }
   })
+      }else{
+      wx.showToast({
+        title: 'djcfwv',
+      })
+      }
+     
   })
  
 
@@ -527,6 +551,8 @@ message:function(event){
     //将input所对应的全局属性的属性值更新
     this.data[dataset.item] = value;
   },
+
+  //点击提交评论
   Comment_btnClick() {
 
     console.log("评论内容:",this.data.info);
@@ -537,11 +563,85 @@ message:function(event){
       success: res => {
        
 
+
+    if(this.data.info!="")
+    {
+      this.data.content = this.data.info
+
+      const db = wx.cloud.database()
+      const _ = db.command
+        // where 查询操作
+db.collection('comment').where({
+    b_id:this.data.task._id
+  })
+  .get()
+  .then(res => {
+    // 查询数据成功
+    console.log("查询该人是否有评论",res)
+    
+    if(res.data.length){
+    app.flag2 = true
+    this.Bnum(3)
+    this.message('评论')
+      //更新数据
+      // update 更新操作
+      // primary key 要更新的那条数据的主键id
+
+      db.collection('comment').doc(res.data[0]._id)
+      .update({
+        // 想要更新后的数据
+        data: {
+           comment_array:_.push(
+          [{
+                   comment_content:aaa,
+                   userInfo1:this.data.userInfo1
+              }]
+
+    )
+        }
+      }).then(res => {
+        // 更新数据成功
+        console.log(res),
+        this.getComment();
+      //   app.flag2 = true
+      // this.Bnum(3)
+      // this.message('评论')
+      }).catch(err => {
+        // 更新数据失败
+        console.log(err)
+      })
+  
+    }else{
+      //插入数据
+      // add 插入操作
+      db.collection('comment').add({
+        // 要插入的数据
+        data: {
+            b_id:this.data.task._id,
+                comment_array:[{
+                   comment_content:aaa,
+                   userInfo1:this.data.userInfo1,
+              }]
+        }
+      }).then(res => {
+        // 插入数据成功
+        console.log("插入成功",res),
+        this.getComment();
+      }).catch(err => {
+        // 插入数据失败
+        console.log("插入失败",err)
+      })
+    }
+  }).catch(err => {
+    // 查询数据失败
+    console.log(err)
+    
+  })
+
           this.data.comment_time=res.result.timestamp
           console.log("当前评论时间：",this.data.comment_time)
 
 
-          //更新评论代码区
 
           
           
