@@ -9,6 +9,8 @@ Page({
   data: {
     message : []
 
+    comment_time:null
+
   },
 
   /**
@@ -69,6 +71,28 @@ Page({
       icon: 'none',
     });
   }
+  // demo(){
+
+  //   wx.cloud.callFunction({
+  //     name: 'LoadData',
+  //     success: res => {
+       
+  //       console.log("返回发布动态数组:",res.result.data)
+  //       // this.setData({
+
+          
+  //       //   comment_time:res.result.tim
+          
+  //       // })
+
+  //         // console.log(this.data.comment_time)
+
+  //     },
+  //     fail: err => {
+  //       console.error('[云函数] [时间函数] 调用失败：', err)
+  //     }
+  //   })
+  // }
 
   
 })

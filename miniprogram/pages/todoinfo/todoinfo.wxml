@@ -71,11 +71,11 @@
           </view>
          
           <view class="margin-top-sm flex justify-between">
-            <view class="text-gray text-df">2018年12月4日</view>
-            <button class="cu-btn round line-red " bindtap="demo"  data-id="{{index}}">删除</button>
+            <view class="text-gray text-df">{{item.comment_time}}</view>
+          <button class="cu-btn round line-red " bindtap="delete_comment" wx:if="{{true}}">删除</button>
             <view>
-              <text class="cuIcon-appreciatefill text-red"></text>
-              <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+              <!-- <text class="cuIcon-appreciatefill text-red"></text>
+              <text class="cuIcon-messagefill text-gray margin-left-sm"></text> -->
             </view>
           </view>
         </view>

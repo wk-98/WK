@@ -71,9 +71,11 @@
       </view>
     </view>
  
+
   </view> 
 </navigator>
 </block>
   </van-tab>
 
 </van-tabs>
+
