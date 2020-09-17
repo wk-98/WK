@@ -20,7 +20,7 @@ Page({
    flag:1,    //标记是否点赞,1是没有点赞，2是已经点赞
     info:'',//评论的内容
 
-    content:''  //记住评论内容
+    content:'' , //记住评论内容
     
 
     comment_time:null
@@ -564,8 +564,7 @@ message:function(event){
        
 
 
-    if(this.data.info!="")
-    {
+  
       this.data.content = this.data.info
 
       const db = wx.cloud.database()
@@ -640,14 +639,6 @@ db.collection('comment').where({
 
           this.data.comment_time=res.result.timestamp
           console.log("当前评论时间：",this.data.comment_time)
-
-
-
-          
-          
-      
-            const db = wx.cloud.database()
-            const _ = db.command
               // where 查询操作
       db.collection('comment').where({
           b_id:this.data.task._id
@@ -718,20 +709,14 @@ db.collection('comment').where({
           console.log(err)
           
         })
-      
-      
-      
-          
-
-
           //更新评论代码区
-          
-          
-      },
+      
       fail: err => {
         console.error('[云函数] [时间函数] 调用失败：', err)
       }
-    })}else{
+    }
+    })
+}else{
       wx.showToast({
         title: '请填写评论内容',
         icon: 'none'
