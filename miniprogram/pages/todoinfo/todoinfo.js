@@ -22,7 +22,7 @@ Page({
 
     content:'' , //记住评论内容
     comment_time:null,
-    delete_icon:true
+    delete_icon:'111'//是否出现删除按钮
   
    
 
@@ -35,6 +35,8 @@ Page({
 
   GetComment_time(){
 
+
+  
     wx.cloud.callFunction({
       name: 'time',
       success: res => {
@@ -71,8 +73,11 @@ Page({
    */
   onLoad: function (options) {
      console.log(options.id)
-      // console.log(options.id)
-      //const app = getApp()
+      this.data.delete_icon=app.globalData.openid
+      this.setData({
+        delete_icon:app.globalData.openid
+      })
+      console.log("加载ID",this.data.delete_icon)
      this.data._id = options.id
      app.flag1 = 1
      app.flag3 = false
@@ -578,7 +583,7 @@ message:function(event){
           console.log("查询该人是否有评论",res)
           
           if(res.data.length){
-            //更新数据
+            //说明该动态的评论记录已存在，直接更新评论数组
       
            
             db.collection('comment').doc(res.data[0]._id)
@@ -597,6 +602,8 @@ message:function(event){
               }
             }).then(res => {
               // 更新数据成功
+              this.Bnum(3) 
+              this.message('评论') 
               console.log(res)
         wx.showToast({
           title: '评论成功',
@@ -624,6 +631,8 @@ message:function(event){
               }
             }).then(res => {
               // 插入数据成功
+              this.Bnum(3) 
+              this.message('评论') 
               console.log("插入成功",res)
         wx.showToast({
           title: '评论成功',
@@ -673,7 +682,7 @@ message:function(event){
    
     console.log("用户的appid:",app.globalData.openid)
     console.log("数据库-用户的appid:",this.data.com[0].comment_array[i].appId)
-    if(app.globalData.openid!=this.data.com[0].comment_array.appId)
+    if(app.globalData.openid!=this.data.com[0].comment_array[i].appId)
     {
       console.log("这不是你的评论！")
       wx.showToast({

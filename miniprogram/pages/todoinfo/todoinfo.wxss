@@ -46,5 +46,5 @@ swiper image{
 }
 .comment_under{
 
-  margin-bottom: 0.5rem;
+  padding-bottom: 0;
 }
