@@ -58,10 +58,15 @@ App({
                               //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
                                 console.log('docs\'s changed events', snapshot.docChanges)
                                 if(snapshot.docChanges.length != 0){
-                                  this1.flag3 = true
-                                  wx.showTabBarRedDot({index : 3})
                                   for(let i = 0; i < snapshot.docChanges.length; i++){
                                     this1.globalData.message[i] = snapshot.docChanges[i].doc
+                                  }
+                                  for(let i = 0; i < snapshot.docChanges.length; i++){
+                                    if(this1.globalData.message[i].status == 0){
+                                      this1.flag3 = true
+                                      wx.showTabBarRedDot({index : 3})
+                                      break
+                                    }
                                   }
                                   console.log("消息数组", this1.globalData.message)
                                   //wx.showTabBarRedDot({index : 3})
