@@ -562,83 +562,13 @@ message:function(event){
       name: 'time',
       success: res => {
        
-
-
-  
-      this.data.content = this.data.info
-
-      const db = wx.cloud.database()
-      const _ = db.command
-        // where 查询操作
-db.collection('comment').where({
-    b_id:this.data.task._id
-  })
-  .get()
-  .then(res => {
-    // 查询数据成功
-    console.log("查询该人是否有评论",res)
-    
-    if(res.data.length){
-    app.flag2 = true
-    this.Bnum(3)
-    this.message('评论')
-      //更新数据
-      // update 更新操作
-      // primary key 要更新的那条数据的主键id
-
-      db.collection('comment').doc(res.data[0]._id)
-      .update({
-        // 想要更新后的数据
-        data: {
-           comment_array:_.push(
-          [{
-                   comment_content:aaa,
-                   userInfo1:this.data.userInfo1
-              }]
-
-    )
-        }
-      }).then(res => {
-        // 更新数据成功
-        console.log(res),
-        this.getComment();
-      //   app.flag2 = true
-      // this.Bnum(3)
-      // this.message('评论')
-      }).catch(err => {
-        // 更新数据失败
-        console.log(err)
-      })
-  
-    }else{
-      //插入数据
-      // add 插入操作
-      db.collection('comment').add({
-        // 要插入的数据
-        data: {
-            b_id:this.data.task._id,
-                comment_array:[{
-                   comment_content:aaa,
-                   userInfo1:this.data.userInfo1,
-              }]
-        }
-      }).then(res => {
-        // 插入数据成功
-        console.log("插入成功",res),
-        this.getComment();
-      }).catch(err => {
-        // 插入数据失败
-        console.log("插入失败",err)
-      })
-    }
-  }).catch(err => {
-    // 查询数据失败
-    console.log(err)
-    
-  })
-
           this.data.comment_time=res.result.timestamp
           console.log("当前评论时间：",this.data.comment_time)
+
+          //更新评论代码区
+      
+            const db = wx.cloud.database()
+            const _ = db.command
               // where 查询操作
       db.collection('comment').where({
           b_id:this.data.task._id
@@ -710,13 +640,13 @@ db.collection('comment').where({
           
         })
           //更新评论代码区
-      
+          
+          
+      },
       fail: err => {
         console.error('[云函数] [时间函数] 调用失败：', err)
       }
-    }
-    })
-}else{
+    })}else{
       wx.showToast({
         title: '请填写评论内容',
         icon: 'none'
@@ -725,15 +655,14 @@ db.collection('comment').where({
 
     }
 
-   
-    
-
     //对数据层的info属性更新
     this.data.info = "";
     //通过setData函数对数据层的info属性再次赋值 用于触发全局属性info属性的set属性，使当前对象的模板层重新渲染完成页面更新
     this.setData({
       info: this.data.info
     })
+
+
   },
   delete_comment:function(e){
     console.log(e.currentTarget.dataset.id)
