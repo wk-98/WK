@@ -590,7 +590,8 @@ message:function(event){
                 [{      
                          comment_content:aaa,
                          comment_time:this.data.comment_time,
-                         userInfo1:this.data.userInfo1
+                         userInfo1:this.data.userInfo1,
+                         appId:app.globalData.openid
                     }]
       
           )
@@ -619,6 +620,7 @@ message:function(event){
                          comment_content:aaa,
                          comment_time:this.data.comment_time,
                          userInfo1:this.data.userInfo1,
+                         appId:app.globalData.openid
                     }]
               }
             }).then(res => {
@@ -665,10 +667,19 @@ message:function(event){
 
   },
   delete_comment:function(e){
-    console.log(e.currentTarget.dataset.id)
-    var i=e.currentTarget.dataset.id
+   
+
+    console.log("数组下标",e.currentTarget.dataset.target)
+    var i=e.currentTarget.dataset.target
+   
+    console.log("用户的appid:",app.globalData.openid)
+    console.log("数据库-用户的appid:",this.data.com[0].comment_array[i].appId)
+    // if(app.globalData.openid!=this.data.com[0].comment_array.appId)
+    // {
+    //   console.log("这不是你的评论！")
+    // }
+
     this.data.com[0].comment_array.splice(i, 1);
-    
     var bbb=this.data.com[0].comment_array;
     console.log(bbb)
     console.log(this.data.com[0]._id)
@@ -689,7 +700,6 @@ message:function(event){
         // 更新数据失败
         console.log(err)
       })
-
 
 
    

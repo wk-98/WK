@@ -72,7 +72,7 @@
          
           <view class="margin-top-sm flex justify-between">
             <view class="text-gray text-df">{{item.comment_time}}</view>
-          <button class="cu-btn round line-red " bindtap="delete_comment" wx:if="{{true}}">删除</button>
+          <button class="cu-btn round line-red " bindtap="delete_comment" wx:if="{{true}}" data-target="{{index}}">删除</button>
             <view>
               <!-- <text class="cuIcon-appreciatefill text-red"></text>
               <text class="cuIcon-messagefill text-gray margin-left-sm"></text> -->
