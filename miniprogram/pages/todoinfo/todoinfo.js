@@ -21,9 +21,8 @@ Page({
     info:'',//评论的内容
 
     content:'' , //记住评论内容
-    
-
-    comment_time:null
+    comment_time:null,
+    delete_icon:true
   
    
 
@@ -674,32 +673,42 @@ message:function(event){
    
     console.log("用户的appid:",app.globalData.openid)
     console.log("数据库-用户的appid:",this.data.com[0].comment_array[i].appId)
-    // if(app.globalData.openid!=this.data.com[0].comment_array.appId)
-    // {
-    //   console.log("这不是你的评论！")
-    // }
+    if(app.globalData.openid!=this.data.com[0].comment_array.appId)
+    {
+      console.log("这不是你的评论！")
+      wx.showToast({
+        title: '只能删除自己的评论',
+        icon:'none'
+      })
+    }else{
 
-    this.data.com[0].comment_array.splice(i, 1);
-    var bbb=this.data.com[0].comment_array;
-    console.log(bbb)
-    console.log(this.data.com[0]._id)
-     db.collection('comment').doc(this.data.com[0]._id).update({
-        // 想要更新后的数据
-        data: {
-           comment_array:bbb
-        }
-      }).then(res => {
-        // 更新数据成功
-        console.log(res)
-  wx.showToast({
-    title: '删除评论成功',
-    icon: 'sucess'
-  })
-        this.getComment();
-      }).catch(err => {
-        // 更新数据失败
-        console.log(err)
-      })
+
+      this.data.com[0].comment_array.splice(i, 1);
+      var bbb=this.data.com[0].comment_array;
+      console.log(bbb)
+      console.log(this.data.com[0]._id)
+       db.collection('comment').doc(this.data.com[0]._id).update({
+          // 想要更新后的数据
+          data: {
+             comment_array:bbb
+          }
+        }).then(res => {
+          // 更新数据成功
+          console.log(res)
+    wx.showToast({
+      title: '删除评论成功',
+      icon: 'sucess'
+    })
+          this.getComment();
+        }).catch(err => {
+          // 更新数据失败
+          console.log(err)
+        })
+
+
+    }
+
+    
 
 
    
