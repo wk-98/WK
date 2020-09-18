@@ -13,7 +13,14 @@ Page({
   },
 
   onLoad: function (options) {
-    this.check(); 
+    if(JSON.stringify(app.globalData.userInfo)!="{}"){
+        this.check(); 
+    }else{
+      wx.showToast({
+        title: '请先登录',
+      })
+    }
+  
     
    },
 

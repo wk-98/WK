@@ -63,11 +63,8 @@ Page({
   },
 
   onClick:function(event) {
-    console.log(event)
-    wx.showToast({
-      title: `点击标签 ${event.detail.name}`,
-      icon: 'none',
-    });
+   //点击顶部tarbar的响应事件
+   
   }
   
   

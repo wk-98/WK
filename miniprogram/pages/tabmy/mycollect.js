@@ -15,7 +15,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    db.collection('concern').where({
+    if(JSON.stringify(app.globalData.userInfo)!="{}"){
+       db.collection('concern').where({
       // 查询条件
       _openid:app.globalData._openid
     })
@@ -24,7 +25,7 @@ Page({
       // 查询数据成功
       console.log(res)  
       let a = []
-      for(var i =0 ;i < res.data[0].dianzan.length; i++){
+      for(let i =0 ;i < res.data[0].dianzan.length; i++){
         a[i] =  res.data[0].dianzan[i]._id
       }
       this.data._id = a;
@@ -34,10 +35,14 @@ Page({
       // 查询数据失败
       console.log(err)
     })
-
+    }else{
+      wx.showToast({
+        title: '请先登录',
+      })
+    }
   },
   onShow:function(){
-    console.log("dfdvgb")
+    console.log("mycollect",onshow)
     this.setData({
       task:[]
     })

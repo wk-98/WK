@@ -1,4 +1,5 @@
 // miniprogram/pages/tabmy/myupdate.js
+const app = getApp();
 Page({
 
   /**
@@ -15,24 +16,30 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {  
-    const app = getApp()
-    //console.log("onload")
-    //console.log("app2",app.flag)
-    if(app.flag==2){
-       this.data._openid=options._openid;
-    this.getdata();
     
-    }else{
-      this.getdata();
+    //console.log("onload")
+    console.log("app2",app.globalData.userInfo)
+    if(JSON.stringify(app.globalData.userInfo)!="{}"){
+      if(app.flag==2){
+        this.data._openid=options._openid;
+        this.getdata();
+    
+      }else{
+        this.getdata();
       
+      }
+    }else{
+      wx.showToast({
+        title: '登录才能查看',
+      })
     }
+    
   
   
   },
 
   onShow:function(){
     //console.log("onshow")
-    const app = getApp()
     //console.log("app1",app.flag)
     if(app.flag==1){
       //console.log("onshow")
