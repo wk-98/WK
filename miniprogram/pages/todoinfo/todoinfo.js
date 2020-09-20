@@ -14,6 +14,7 @@ Page({
     userInfo1:null,
     icon_color:'#000',
     icon:'like-o',
+    dai:'cloud://wk-26412.776b-wk-26412-1302881793/jiazhuang.png',
 
     signal:1,    //控制页面渲染，=1：关注、=3：没关注、=2：非自己发布的动态（控住显示删除）
     _id:'',     //记住动态的_id
@@ -94,7 +95,7 @@ Page({
         this.setData({
           task:res.data
         })
-        console.log("task",this.data.task) 
+        console.log("task数组",this.data.task) 
        
         
       }),

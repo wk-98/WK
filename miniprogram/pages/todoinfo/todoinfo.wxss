@@ -1,6 +1,10 @@
 /* pages/todoinfo/todoinfo.wxss */
 
+page{
 
+    padding-bottom: 3rem;
+
+}
 .user-img-name{
 
   margin-bottom: -1.5rem;
@@ -46,5 +50,24 @@ swiper image{
 }
 .comment_under{
 
-  padding-bottom: 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.comment_size{
+
+  font-size: 16px;
+
+}
+
+.time_size{
+
+  font-size: 12px;
+
+}
+.pingluqu_size{
+
+  font-size: 16px;
+
 }

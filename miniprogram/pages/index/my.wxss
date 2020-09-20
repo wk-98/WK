@@ -46,7 +46,7 @@ page {
 
 .userinfo-nickname {
   font-size: 32rpx;
-  color: #007aff;
+  color:#4da9ff;
   background-color: white;
   background-size: cover;
   text-align: left;
@@ -74,7 +74,8 @@ page {
   width: 100%;
   line-height: 52px;
   font-size: 34rpx;
-  color: #007aff;
+  color:#4da9ff;
+  
 }
 
 .uploader-container {
@@ -119,7 +120,7 @@ page {
 }
 
 .disable {
-  color: #888;
+  color:#4da9ff;
 }
 
 .service {
@@ -151,6 +152,11 @@ page {
   font-size: 24rpx;
   line-height: 36rpx;
   word-break: break-all;
+}
+.icon_size{
+
+  font-size: 45rpx;
+
 }
 
 
