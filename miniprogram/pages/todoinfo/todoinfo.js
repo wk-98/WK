@@ -503,9 +503,9 @@ message:function(event){
       console.log("shijian ",time)  
       console.log("yonhu",app.globalData.userInfo)
       wx.showToast({
-        title: app.globalData.userInfo.nickName,
+        title: event+"成功",
       })
-      if(JSON.stringify(app.globalData.userInfo)!="{}"){
+      if(app.logged){
          wx.cloud.callFunction({
     name:'message',
     data:{
@@ -525,7 +525,7 @@ message:function(event){
   })
       }else{
       wx.showToast({
-        title: 'djcfwv',
+        title: '！未登录 ！',
       })
       }
      
@@ -555,6 +555,9 @@ message:function(event){
 
   //点击提交评论
   Comment_btnClick() {
+    if(app.logged){
+
+    
 
     console.log("评论内容:",this.data.info);
     this.data.aaa=this.data.info;
@@ -669,7 +672,11 @@ message:function(event){
       info: this.data.info
     })
 
-
+  }else{
+    wx.showToast({
+      title: "未登录，请先登录->“我的”",
+    })
+  }
   },
   delete_comment:function(e){
 
