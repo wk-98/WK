@@ -8,12 +8,12 @@
       <view class="cu-item">
         <view class="cu-avatar round lg" style="background-image:url({{item.userInfo.avatarUrl}});"></view>
         <view class="content flex-sub">
-          <view class="text-grey">{{item.userInfo.nickName}}</view>
+          <view class="text-black">{{item.userInfo.nickName}}</view>
           <view class="text-gray text-sm flex justify-between">
             {{item.date}}
-            <view class="text-gray text-sm">
-              <text class="cuIcon-appreciatefill margin-lr-xs"></text>{{item.Bnum}}
-              <text class="cuIcon-messagefill margin-lr-xs"></text>{{item.Dnum}}
+            <view class=" text-sm">
+              <text class="cuIcon-appreciatefill margin-lr-xs shouye_size"></text>{{item.Bnum}}
+              <text class="cuIcon-messagefill margin-lr-xs shouye_size"></text>{{item.Dnum}}
             </view>
           </view>
           <view class="title">
