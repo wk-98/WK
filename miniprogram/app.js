@@ -11,6 +11,7 @@ App({
   flag2:false, //标志评论事件，首页自动刷新
   flag3:false,  //标志小红点的显示
   logged:false, //判断登录授权
+  
  
   
   onLaunch: function () {
@@ -50,19 +51,20 @@ App({
                           // 监听数据库消息
                           const db = wx.cloud.database()
                           console.log("开始监听")
-                          db.collection('message').where({
+                           db.collection('message').where({
                             B_openid : this1.globalData.openid,
                             // status:0
                           }).watch({
                               onChange: snapshot=> {
                               //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
-                                console.log('docs\'s changed events', snapshot.docChanges)
+                              
+                                console.log('docs\'s changed events11', snapshot.docChanges)
                                 if(snapshot.docChanges.length != 0){
                                   for(let i = 0; i < snapshot.docChanges.length; i++){
                                     this1.globalData.message[i] = snapshot.docChanges[i].doc
                                   }
                                   for(let i = 0; i < snapshot.docChanges.length; i++){
-                                    if(this1.globalData.message[i].status == 0){
+                                    if(this1.globalData.message[i].status == 0 ){
                                       this1.flag3 = true
                                       wx.showTabBarRedDot({index : 3})
                                       break
@@ -86,103 +88,16 @@ App({
           }
       }
   })
-       //this.ongetopenid()
-       //修改2020-09-16
-      //  let this1 = this
-      //  wx.cloud.callFunction({
-      //   name: 'checkuser',
-      //   success: res => {
-      //   console.log('[云函数] [login] user : ', res)
-      //    console.log('[云函数] [login] user openid: ', res.result.userInfo)
-      //   if(JSON.stringify(res.result.userInfo)!="{}"){
-      //      this.globalData.userInfo = res.result.userInfo
-      //     this.globalData.avatarUrl = res.result.avatarUrl
-      //     this.globalData.openid = res.result.openid
 
-      //   }else{
-      //     console.log("没有该用户")
-      //   }
-      //   console.log("this.glob",this.globalData.userInfo)
-      //  },
-      //   fail: err => {
-      //   //console.error('[云函数] [login] 调用失败', err)
-      //   }
-      // })
-       //修改2020-09-16
     
     }
     
   },
  
 
-  // monitor:function(){
-  //   //监听数据库消息
-  //   const db = wx.cloud.database()
-  //   db.collection('message').where({
-  //     B_openid : this.globalData.openid
-  //   }).
-  //     watch({
-  //     onChange: snapshot=> {
-  //       //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
-  //       console.log('docs\'s changed events', snapshot.docChanges)
-  //       if(snapshot.docChanges.length != 0){
-  //         this.flag3 = true
-  //            wx.showTabBarRedDot({index : 3})
-  //         for(let i = 0; i < snapshot.docChanges.length; i++){
-  //           this.globalData.message[i] = snapshot.docChanges[i].doc
-  //         }
-  //         console.log("消息数组", this.globalData.message)
-  //         //wx.showTabBarRedDot({index : 3})
-  //       }
-  //     },
-  //     onError: err=> {
-  //       console.error('the watch closed because of error', err)
-  //     }
-  //   })
-  // },
-  // onShow:function(){
-  //   wx.cloud.callFunction({
-  //     name: 'login',
-  //     data: {},
-  //     success: res => {
-  //       //console.log('[云函数] [login] user : ', res)
-  //      // console.log('[云函数] [login] user openid: ', res.result.openid)
-  //       this.globalData.openid = res.result.openid
-  //       console.log("开始监听",this.globalData.openid)
-   
-  //   //监听数据库消息
-  //   const db = wx.cloud.database()
-  //   db.collection('message').where({
-  //     B_openid : this.globalData.openid
-  //   }).
-  //     watch({
-  //     onChange: snapshot=> {
-  //       //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
-  //       console.log('docs\'s changed events', snapshot.docChanges)
-  //       if(snapshot.docChanges.length != 0){
-  //         this.flag3 = true
-  //            wx.showTabBarRedDot({index : 3})
-  //         for(let i = 0; i < snapshot.docChanges.length; i++){
-  //           this.globalData.message[i] = snapshot.docChanges[i].doc
-  //         }
-  //         console.log("消息数组", this.globalData.message)
-  //         //wx.showTabBarRedDot({index : 3})
-  //       }
-  //     },
-  //     onError: err=> {
-  //       console.error('the watch closed because of error', err)
-  //     }
-  //   })
-        
-  //     },
-  //     fail: err => {
-  //       //console.error('[云函数] [login] 调用失败', err)
-  //     }
-  //   })
-    
-  // },
+
   onHide:function(){
-    watcher.close()
+    
   }
 
 })

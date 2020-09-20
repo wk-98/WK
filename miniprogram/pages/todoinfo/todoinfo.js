@@ -1,3 +1,4 @@
+
 // pages/todoinfo/todoinfo.js
 const db = wx.cloud.database();
 const _ = db.command;
@@ -14,16 +15,16 @@ Page({
     userInfo1:null,
     icon_color:'#000',
     icon:'like-o',
-    dai:'cloud://wk-26412.776b-wk-26412-1302881793/jiazhuang.png',
 
     signal:1,    //控制页面渲染，=1：关注、=3：没关注、=2：非自己发布的动态（控住显示删除）
     _id:'',     //记住动态的_id
    flag:1,    //标记是否点赞,1是没有点赞，2是已经点赞
     info:'',//评论的内容
 
-    content:'' , //记住评论内容
-    comment_time:null,
-    delete_icon:'111'//是否出现删除按钮
+    aaa:'' , //记住评论内容
+    
+
+    comment_time:null
   
    
 
@@ -36,8 +37,6 @@ Page({
 
   GetComment_time(){
 
-
-  
     wx.cloud.callFunction({
       name: 'time',
       success: res => {
@@ -74,11 +73,8 @@ Page({
    */
   onLoad: function (options) {
      console.log(options.id)
-      this.data.delete_icon=app.globalData.openid
-      this.setData({
-        delete_icon:app.globalData.openid
-      })
-      console.log("加载ID",this.data.delete_icon)
+      // console.log(options.id)
+      //const app = getApp()
      this.data._id = options.id
      app.flag1 = 1
      app.flag3 = false
@@ -95,7 +91,7 @@ Page({
         this.setData({
           task:res.data
         })
-        console.log("task数组",this.data.task) 
+        console.log("task",this.data.task) 
        
         
       }),
@@ -518,7 +514,7 @@ message:function(event){
       userInfo:app.globalData.userInfo,
       _id:this.data._id,
       time:time,
-      content:this.data.content
+      content:this.data.aaa
     },
     success: res => {
      console.log(res)
@@ -561,7 +557,7 @@ message:function(event){
   Comment_btnClick() {
 
     console.log("评论内容:",this.data.info);
-    let aaa=this.data.info;
+    this.data.aaa=this.data.info;
     if(this.data.info!=""){
     wx.cloud.callFunction({
       name: 'time',
@@ -584,7 +580,7 @@ message:function(event){
           console.log("查询该人是否有评论",res)
           
           if(res.data.length){
-            //说明该动态的评论记录已存在，直接更新评论数组
+            //更新数据
       
            
             db.collection('comment').doc(res.data[0]._id)
@@ -593,19 +589,18 @@ message:function(event){
               data: {
                  comment_array:_.push(
                 [{      
-                         comment_content:aaa,
+                         comment_content:this.data.aaa,
                          comment_time:this.data.comment_time,
-                         userInfo1:this.data.userInfo1,
-                         appId:app.globalData.openid
+                         userInfo1:this.data.userInfo1
                     }]
       
           )
               }
             }).then(res => {
               // 更新数据成功
-              this.Bnum(3) 
-              this.message('评论') 
               console.log(res)
+        this.Bnum(3)
+        this.message('评论')
         wx.showToast({
           title: '评论成功',
           icon: 'sucess'
@@ -624,16 +619,15 @@ message:function(event){
               data: {
                   b_id:this.data.task._id,
                       comment_array:[{
-                         comment_content:aaa,
+                         comment_content:this.data.aaa,
                          comment_time:this.data.comment_time,
                          userInfo1:this.data.userInfo1,
-                         appId:app.globalData.openid
                     }]
               }
             }).then(res => {
               // 插入数据成功
-              this.Bnum(3) 
-              this.message('评论') 
+        this.Bnum(3)
+        this.message('评论')
               console.log("插入成功",res)
         wx.showToast({
           title: '评论成功',
@@ -676,57 +670,41 @@ message:function(event){
 
   },
   delete_comment:function(e){
-   
-
-    console.log("数组下标",e.currentTarget.dataset.target)
-    var i=e.currentTarget.dataset.target
-   
-    console.log("用户的appid:",app.globalData.openid)
-    console.log("数据库-用户的appid:",this.data.com[0].comment_array[i].appId)
-    if(app.globalData.openid!=this.data.com[0].comment_array[i].appId)
-    {
-      console.log("这不是你的评论！")
-      wx.showToast({
-        title: '只能删除自己的评论',
-        icon:'none'
-      })
-    }else{
-
-
-      this.data.com[0].comment_array.splice(i, 1);
-      var bbb=this.data.com[0].comment_array;
-      console.log(bbb)
-      console.log(this.data.com[0]._id)
-       db.collection('comment').doc(this.data.com[0]._id).update({
-          // 想要更新后的数据
-          data: {
-             comment_array:bbb
-          }
-        }).then(res => {
-          // 更新数据成功
-          console.log(res)
-    wx.showToast({
-      title: '删除评论成功',
-      icon: 'sucess'
-    })
-          this.getComment();
-        }).catch(err => {
-          // 更新数据失败
-          console.log(err)
-        })
-
-
-    }
-
+    console.log(e.currentTarget.dataset.id)
+    var i=e.currentTarget.dataset.id
+    this.data.com[0].comment_array.splice(i, 1);
     
+    var bbb=this.data.com[0].comment_array;
+    console.log(bbb)
+    console.log(this.data.com[0]._id)
+     db.collection('comment').doc(this.data.com[0]._id).update({
+        // 想要更新后的数据
+        data: {
+           comment_array:bbb
+        }
+      }).then(res => {
+        // 更新数据成功
+        this.Bnum(4)
+        console.log(res)
+  wx.showToast({
+    title: '删除评论成功',
+    icon: 'sucess'
+  })
+        this.getComment();
+      }).catch(err => {
+        // 更新数据失败
+        console.log(err)
+      })
+
 
 
    
 
-  },
+  }
 
  
   
+
 
 
 

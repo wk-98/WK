@@ -1,1 +1,4 @@
 /* miniprogram/pages/index/news.wxss */
+.cu-item{
+  margin: 0px!important;
+}

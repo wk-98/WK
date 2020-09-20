@@ -1,12 +1,11 @@
 <!--miniprogram/pages/index/news.wxml-->
 
 
-<van-tabs animated bind:click="onClick">
+<van-tabs animated bind:click="doc">
  
   
-  <van-tab title="评论">
+  <van-tab title="评论"  dot="{{dot1}}" >
     <block wx:for="{{message}}">
-      
 <view  wx:if="{{item.type == '评论' }}" class="cu-list menu-avatar">
     <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}"  wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
       <view class="cu-avatar round lg" style="background-image:url({{item.userInfo.avatarUrl}});"></view>
@@ -32,7 +31,7 @@
 </block>
   </van-tab>
 
- <van-tab title="关注">
+ <van-tab title="关注" dot="{{dot2}}" >
   <block wx:for="{{message}}"> 
       <view  wx:if="{{item.type == '关注'}}" class="cu-list menu-avatar">
         <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}"  wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
@@ -50,6 +49,7 @@
         <view class="text-grey text-xs">{{item.time}}</view>
       </view>
       <view class="move">
+        <view class="bg-grey" bindtap="LOOK" data-dTid="1" data-id="{{item._id}}" data-index="{{index}}">已读</view>
         <view class="bg-red" bindtap="delete" data-id="{{item._id}}" data-index="{{index}}">删除</view>
       </view>
     </view>
@@ -57,7 +57,7 @@
   </view>
 </block>
  </van-tab>
- <van-tab title="点赞">
+ <van-tab title="点赞" dot="{{dot3}}">
     <block wx:for="{{message}}">
        
     <view  wx:if="{{item.type == '点赞' }}" class="cu-list menu-avatar">

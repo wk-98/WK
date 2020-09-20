@@ -88,6 +88,7 @@ Page({
               app.globalData.openid = res.result.openid
               app.globalData.userInfo = event.detail.userInfo
               app.globalData.avatarUrl = event.detail.userInfo.avatarUrl
+              app.logged = true
               this1.setData({
                 logged:true,
                 avatarUrl: event.detail.userInfo.avatarUrl,
