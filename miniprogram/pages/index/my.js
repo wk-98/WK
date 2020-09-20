@@ -78,6 +78,7 @@ Page({
     console.log(event)
     let this1 = this
     if(event.detail.userInfo){
+      app.monitor()
       wx.cloud.callFunction({
             name:'adduser',
             data:{

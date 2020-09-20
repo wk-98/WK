@@ -13,8 +13,8 @@
           <view class="text-gray text-sm flex justify-between">
             {{item.date}}
             <view class="text-gray text-sm">
-              <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
-              <text class="cuIcon-messagefill margin-lr-xs"></text> 30
+              <text class="cuIcon-appreciatefill margin-lr-xs shouye_size"></text>{{item.Bnum}}
+              <text class="cuIcon-messagefill margin-lr-xs shouye_size"></text>{{item.Dnum}}
             </view>
           </view>
           <view class="title">

@@ -312,7 +312,9 @@ delete(){
     cancelColor: 'cancelColor',
     title: '提示',
     content: '确定要删除该动态吗？',
+    showCancel: true,
 
+  
     success (res) {
       if (res.confirm) {
         console.log('用户点击确定')
