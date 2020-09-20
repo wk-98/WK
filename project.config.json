@@ -1,5 +1,4 @@
 {
-
   "miniprogramRoot": "miniprogram/",
   "cloudfunctionRoot": "cloudfunctions/",
   "setting": {
@@ -112,5 +111,4 @@
       ]
     }
   }
-
 }
