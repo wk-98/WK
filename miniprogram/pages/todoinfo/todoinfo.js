@@ -24,7 +24,8 @@ Page({
     aaa:'' , //记住评论内容
     
 
-    comment_time:null
+    comment_time:null,
+    delete_icon:'111'//是否出现删除按钮
   
    
 
@@ -72,9 +73,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     console.log(options.id)
-      // console.log(options.id)
-      //const app = getApp()
+     
+     this.data.delete_icon=app.globalData.openid
+     this.setData({
+       delete_icon:app.globalData.openid
+     })
+     console.log("加载ID",this.data.delete_icon)
+
      this.data._id = options.id
      app.flag1 = 1
      app.flag3 = false
@@ -491,12 +496,7 @@ message:function(event){
   let time = ''
    wx.cloud.callFunction({
     name:'time',
-    // succes : res =>{
-    //   console.log("谁啊",res)
-    //   time = res.result.timestamp
-    //   console.log("shijian ",time)  
-     
-    // }
+   
   }).then(res =>{
       console.log("谁啊",res)
       time = res.result.timestamp
@@ -591,7 +591,8 @@ message:function(event){
                 [{      
                          comment_content:this.data.aaa,
                          comment_time:this.data.comment_time,
-                         userInfo1:this.data.userInfo1
+                         userInfo1:this.data.userInfo1,
+                         appId:app.globalData.openid
                     }]
       
           )
@@ -622,6 +623,7 @@ message:function(event){
                          comment_content:this.data.aaa,
                          comment_time:this.data.comment_time,
                          userInfo1:this.data.userInfo1,
+                         appId:app.globalData.openid
                     }]
               }
             }).then(res => {
@@ -670,31 +672,49 @@ message:function(event){
 
   },
   delete_comment:function(e){
-    console.log(e.currentTarget.dataset.id)
-    var i=e.currentTarget.dataset.id
-    this.data.com[0].comment_array.splice(i, 1);
+
     
-    var bbb=this.data.com[0].comment_array;
-    console.log(bbb)
-    console.log(this.data.com[0]._id)
-     db.collection('comment').doc(this.data.com[0]._id).update({
-        // 想要更新后的数据
-        data: {
-           comment_array:bbb
-        }
-      }).then(res => {
-        // 更新数据成功
-        this.Bnum(4)
-        console.log(res)
-  wx.showToast({
-    title: '删除评论成功',
-    icon: 'sucess'
-  })
-        this.getComment();
-      }).catch(err => {
-        // 更新数据失败
-        console.log(err)
-      })
+
+    console.log("数组下标",e.currentTarget.dataset.target)
+    var i=e.currentTarget.dataset.target
+   
+    console.log("用户的appid:",app.globalData.openid)
+    console.log("数据库-用户的appid:",this.data.com[0].comment_array[i].appId)
+    if(app.globalData.openid!=this.data.com[0].comment_array[i].appId)
+    {
+      console.log("这不是你的评论！")
+      wx.showToast({
+        title: '只能删除自己的评论',
+        icon:'none'
+      })
+    }else{
+
+
+      this.data.com[0].comment_array.splice(i, 1);
+      var bbb=this.data.com[0].comment_array;
+      console.log(bbb)
+      console.log(this.data.com[0]._id)
+       db.collection('comment').doc(this.data.com[0]._id).update({
+          // 想要更新后的数据
+          data: {
+             comment_array:bbb
+          }
+        }).then(res => {
+          // 更新数据成功
+          this.Bnum(4)
+          console.log(res)
+    wx.showToast({
+      title: '删除评论成功',
+      icon: 'sucess'
+    })
+          this.getComment();
+        }).catch(err => {
+          // 更新数据失败
+          console.log(err)
+        })
+
+
+    }
 
 
 
