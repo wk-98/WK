@@ -1,61 +1,80 @@
+
 <!--pages/todoinfo/todoinfo.wxml-->
 
 
-<view class="publisher-content info-outline"><!--最外边-->
-<view style="float:right" bindtap="delete" wx:if="{{signal == 2}}">
-<van-icon name="close" size="20px" color="{{ icon_color}}"/>
-<text >删除</text>
-</view>
-<view style="float:right" bindtap="dianzan" wx:if="{{flag == 1 && signal != 2}}">
-<van-icon name="/image/dianzan.png" size="35px" />
-</view>
-<view style="float:right" bindtap="cancledianzan" wx:if="{{flag == 2 && signal != 2}}">
-<van-icon name="/image/dianzan(1).png" size="35px" />
-</view>
+
  <view ><!--这是轮播图-->
       <swiper indicator-dots="true"  >
-        <block wx:for="{{task.fileList}}" wx:key="unique">
-          <swiper-item  >
-            <image wx:if="{{item.name}}" src="{{item.name}}"></image>
+        <block wx:if="{{task.fileList.length!=0}}" wx:for="{{task.fileList}}" wx:key="unique">
+          <swiper-item>
+             <image src="{{item.name}}"></image>
           </swiper-item>
         </block>
       </swiper>
     </view><!--这是轮播图-->
 
+   
+
+ 
+<view class="cu-bar bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-green"></text>
+      <text class="text-xl text-bold">动态</text>
+    </view>
+  </view>
+
+<view class="cu-list menu-avatar comment solids-top " style="height:'100rem'">
+<view class="cu-item">
+  <view class="cu-avatar round" style="background-image:url({{task.userInfo.avatarUrl}});"></view>
+        <view class="content">
+          <view class="text-grey">{{task.userInfo.nickName}}</view>
+          <view class="text-black text-content text-df comment_size" style='word-break:break-all;'>  {{task.concent}}</view>
+         
+          <view class="margin-top-sm flex justify-between">
+            <view class="text-gray text-df time_size"> {{task.date}}</view>
+
+
+<view>           
 <!--这是关注-->
 <view style="float:right" bindtap="concern" wx:if="{{signal == 1}}">
-<van-icon  name="{{icon}}" size="20px" color="{{ icon_color}}"/>
-<text >关注</text>
+<van-icon  name="{{icon}}" size="23px" color="{{icon_color}}"/>
 </view>
 <view style="float:right" bindtap="unconcern" wx:if="{{signal == 3}}">
-<van-icon  name="{{icon}}" size="20px" color="{{ icon_color}}"/>
-<text >关注</text>
+<van-icon  name="{{icon}}" size="23px" color="{{icon_color}}"/>
 </view>
 <!--这是关注-->
-<van-divider />
 
 
-</view><!--最外边-->
-  <view class="cu-list menu-avatar">
-   
-<view class="cu-item">
- 
- <view class="cu-avatar round lg" style="background-image:url({{task.userInfo.avatarUrl}});"></view>
-        <view class="content flex-sub">
-          <view>{{task.userInfo.nickName}}</view>
-          <view class="text-gray text-sm flex justify-between">
-            {{task.date}}
+<!--点赞按钮-->
+<view style="float:right" bindtap="dianzan" wx:if="{{flag == 1 && signal != 2}}">
+<van-icon name="/image/dianzan.png" size="23px" />
+</view>
+<view style="float:right" bindtap="cancledianzan" wx:if="{{flag == 2 && signal != 2}}">
+<van-icon name="/image/dianzan(1).png" size="23px" />
+</view><!--点赞按钮-->
+</view> 
+
+<!--删除按钮-->
+<view style="float:right" bindtap="delete" wx:if="{{signal == 2}}">
+<van-icon name="delete" size="24px" color="{{icon_color}}"/>
+</view>
+<!--删除按钮-->
+
+
           </view>
+        </view>
+      </view>
+</view>
 
-         <view class="text-content">
-      {{task.concent}}
-       
+
+<view class="cu-bar bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-blue"></text>
+      <text class="text-xl text-bold pingluqu_size">评论区</text>
     </view>
+  </view>
 
-           </view>
-            </view>
-             </view>
-    
+
 
 <!--这是评论-->
 <view class="comment-outline">
@@ -65,18 +84,13 @@
         <view class="cu-avatar round" style="background-image:url({{item.userInfo1.avatarUrl}});"></view>
         <view class="content">
           <view class="text-grey">{{item.userInfo1.nickName}}</view>
-          <view class="text-gray text-content text-df">
-            {{item.comment_content}}
-          </view>
-         
+          <view class="text-black text-content text-df comment_size" style='word-break:break-all;'>{{item.comment_content}}</view>
+          
           <view class="margin-top-sm flex justify-between">
-            <view class="text-gray text-df">{{item.comment_time}}</view>
-          <button class="cu-btn round line-red " bindtap="delete_comment" wx:if="{{true}}">删除</button>
-            <view>
-              <!-- <text class="cuIcon-appreciatefill text-red"></text>
-              <text class="cuIcon-messagefill text-gray margin-left-sm"></text> -->
-            </view>
+            <view class="text-gray text-df time_size">{{item.comment_time}}</view>
+          <van-icon name="delete" size="22px" bindtap="delete_comment" wx:if="{{delete_icon==item.appId}}" data-target="{{index}}"/>
           </view>
+
         </view>
       </view>
 </view>
@@ -84,10 +98,11 @@
 </view>
 
 
+
+
 <view class="comment_under">
 
  <view class="cu-bar input">   <!--评论框-->
-  
    <!--用于测试双向数据绑定的input-->
   <input class="solid-bottom" focus="{{false}}" maxlength="300" cursor-spacing="10" placeholder='此处写入评论内容' class="weui-input" data-item="info" bindinput="Comment_inputedit" name="manager" value="{{info}}" />
   <!--用于测试双向数据绑定的按钮-->
@@ -98,4 +113,5 @@
 
 
  
+
 

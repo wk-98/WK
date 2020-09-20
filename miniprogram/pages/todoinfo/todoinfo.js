@@ -1,3 +1,4 @@
+
 // pages/todoinfo/todoinfo.js
 const db = wx.cloud.database();
 const _ = db.command;
@@ -699,10 +700,11 @@ message:function(event){
 
    
 
-  },
+  }
 
  
   
+
 
 
 
