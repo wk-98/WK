@@ -186,9 +186,7 @@ Page({
         status:1
       }
     }).then(res=>{
-
-
-
+    
     
     })
       wx.navigateTo({

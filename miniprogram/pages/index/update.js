@@ -100,7 +100,7 @@ Page({
   //提交发布数据，已授权直接发布
 
   Onsubmit:function(event){
-    if(JSON.stringify(app.globalData.userInfo)!="{}"){
+    if(app.logged){
       if(this.data.value != '' || this.data.fileList.length != 0){
         this.add()
       }else{

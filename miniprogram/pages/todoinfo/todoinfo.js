@@ -20,7 +20,7 @@ Page({
    flag:1,    //标记是否点赞,1是没有点赞，2是已经点赞
     info:'',//评论的内容
 
-    content:'' , //记住评论内容
+    aaa:'' , //记住评论内容
     
 
     comment_time:null
@@ -513,7 +513,7 @@ message:function(event){
       userInfo:app.globalData.userInfo,
       _id:this.data._id,
       time:time,
-      content:this.data.content
+      content:this.data.aaa
     },
     success: res => {
      console.log(res)
@@ -556,7 +556,7 @@ message:function(event){
   Comment_btnClick() {
 
     console.log("评论内容:",this.data.info);
-    let aaa=this.data.info;
+    this.data.aaa=this.data.info;
     if(this.data.info!=""){
     wx.cloud.callFunction({
       name: 'time',
@@ -588,7 +588,7 @@ message:function(event){
               data: {
                  comment_array:_.push(
                 [{      
-                         comment_content:aaa,
+                         comment_content:this.data.aaa,
                          comment_time:this.data.comment_time,
                          userInfo1:this.data.userInfo1
                     }]
@@ -598,6 +598,8 @@ message:function(event){
             }).then(res => {
               // 更新数据成功
               console.log(res)
+        this.Bnum(3)
+        this.message('评论')
         wx.showToast({
           title: '评论成功',
           icon: 'sucess'
@@ -616,13 +618,15 @@ message:function(event){
               data: {
                   b_id:this.data.task._id,
                       comment_array:[{
-                         comment_content:aaa,
+                         comment_content:this.data.aaa,
                          comment_time:this.data.comment_time,
                          userInfo1:this.data.userInfo1,
                     }]
               }
             }).then(res => {
               // 插入数据成功
+        this.Bnum(3)
+        this.message('评论')
               console.log("插入成功",res)
         wx.showToast({
           title: '评论成功',
