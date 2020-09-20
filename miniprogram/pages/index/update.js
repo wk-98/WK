@@ -18,11 +18,16 @@ Page({
     
   },
   onShow: function () {
-    // if(app.flag3 == true){
-    //   wx.showTabBarRedDot({index : 3})
-    //   app.flag3 = false
-    // }
-    
+    if(app.logged){
+      this.setData({
+        avatarUrl:app.globalData.avatarUrl
+      })
+    }else(
+      this.setData({
+        avatarUrl:"./user-unlogin.png"
+      })
+      
+    )
     
   },
   //上传照片
@@ -67,25 +72,17 @@ Page({
   //console.log( fileList);*/url: event.detail.file.path ,name:event.detail.file.name
   },
   onLoad: function() {
-    //console.log("onLoad")
-
-      // 检查用户授权情况
-      /*wx.getSetting({
-
-        success: res => {
-          if (res.authSetting['scope.userInfo']) {
-            // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-            wx.getUserInfo({
-              success: res => {
-                this.setData({
-                  avatarUrl: res.userInfo.avatarUrl,
-                  userInfo: res.userInfo
-                })
-              }
-            })
-          }
-        }
-      })*/
+    if(app.logged){
+      this.setData({
+        avatarUrl:app.globalData.avatarUrl
+      })
+    }else(
+      this.setData({
+        avatarUrl:"./user-unlogin.png"
+      })
+      
+    )
+  
   },
 
  //字数改变触发事件 
@@ -119,53 +116,14 @@ Page({
         showCancel: false,
       })
     }
-
-
-    // //不能发布空内容
-    // if(this.data.value != '' || this.data.fileList.length != 0){
-    //    const app =getApp()
-    // if (event.detail.userInfo) {
-    //   //新改，2020-09-16
-    //      app.globalData.avatarUrl = this.data.avatarUrl
-    //       app.globalData.userInfo = this.data.userInfo
-    //       this.setData({
-    //     avatarUrl: event.detail.userInfo.avatarUrl,
-    //     userInfo: event.detail.userInfo,
-    //   })
-
-    //   wx.cloud.callFunction({
-    //     name:'adduser',
-    //     data:{
-    //       userInfo:event.detail.userInfo
-    //     },
-    //     success :res =>{
-    //       console.log("调用云函数成功")
-    //       app.globalData.openid = res.result.openid
-    //     }
-    //   })
-
-      //新改，2020-09-16
-
-
-    //   this.add()
-    // }else{
-    //   wx.showModal({
-    //     title: '提示',
-    //     content: '发布动态需要获取您的用户信息，您拒绝了授权，如需发布请重新进行授权发布',
-    //     confirmText:'重新发布',
-    //     showCancel: false,
-    //   })
-    // }
-
-    // }else{
-    //   wx.showModal({
-    //     title: '提示',
-    //     content: '不能发布空内容',
-    //   })
-    // }
-   
-
-  
+  },
+  nothing:function(){
+    wx.showModal({
+      title: '提示',
+      content: '不能发布空内容',
+      confirmText:'重新发布',
+      showCancel: false,
+    })
   },
   //将数据添加到数据库
   add:function(){

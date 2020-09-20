@@ -683,6 +683,7 @@ message:function(event){
         }
       }).then(res => {
         // 更新数据成功
+        this.Bnum(4)
         console.log(res)
   wx.showToast({
     title: '删除评论成功',

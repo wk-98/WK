@@ -22,7 +22,6 @@
       </swiper>
     </view><!--这是轮播图-->
 
-
 <!--这是关注-->
 <view style="float:right" bindtap="concern" wx:if="{{signal == 1}}">
 <van-icon  name="{{icon}}" size="20px" color="{{ icon_color}}"/>

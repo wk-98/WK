@@ -9,7 +9,10 @@ Page({
    */
   data: {
     message : [],
-    watch:''
+    watch:'',
+    dot1:false,     //123控制顶部红点
+    dot2:false,
+    dot3:false
 
     
   },
@@ -23,9 +26,12 @@ Page({
     app.globalData.message.sort(function(a, b) {
       return b.time < a.time ? -1 : 1
     })
+    
     this.setData({
       message : app.globalData.message
     })
+    //this.data.message = app.globalData.message
+    this.check()
    // this.data.message = app.globalData.message
    console.log(this.data.message[0])
      console.log(this.data.message[0].content)
@@ -50,12 +56,7 @@ Page({
     console.log('消息')
     wx.hideTabBarRedDot({index:3})
     app.flag3 = false
-    // app.globalData.message.sort(function(a, b) {
-    //   return b.time < a.time ? -1 : 1
-    // })
-    // this.setData({
-    //   message : app.globalData.message
-    // })
+    
     // 监听数据库消息
     let a =this.data.message
     console.log("开始页面监听")
@@ -75,8 +76,12 @@ Page({
         if(snapshot.docChanges[i].dataType != "remove"){
           console.log("执行")
           a.push(snapshot.docChanges[i].doc)
+           this.check()
         }
-      }
+
+      }  
+        wx.hideTabBarRedDot({index:3})
+        app.flag3 = false
       //去掉与全局监听到的消息重复的内容
       let hash = {};
       a = a.reduce((preVal, curVal) => {
@@ -90,6 +95,7 @@ Page({
       this.setData({
         message:a
       })
+     
 
     }
     },
@@ -181,20 +187,77 @@ Page({
   LOOK:function(event){
     console.log("look",event)
     //将已经读取了的消息状态置为1
+  
+    this.data.message[event.currentTarget.dataset.index].status=1
+    this.setData({
+       message:this.data.message
+    })
+
     db.collection('message').doc(event.currentTarget.dataset.id).update({
       data:{
         status:1
       }
     }).then(res=>{
-    
-    
+      console.log("置一")
     })
+    if(event.currentTarget.dataset.dtid != 1){
       wx.navigateTo({
         url: '../todoinfo/todoinfo?id='+event.currentTarget.dataset.dtid
       })
+    }
+      
+  },
+
+check:function(){
+  
+  for(let i = 0;i<this.data.message.length;i++){
+    if(this.data.message[i].status==0 && !this.data.dot1 &&this.data.message[i].type == "评论"){
+      this.data.dot1 = true
+      this.setData({
+        dot1:true
+      })
+    }else{
+      this.data.dot1 =false
+      this.setData({
+        dot1:false
+      })
+    }
+    if(this.data.message[i].status==0 && !this.data.dot2 &&this.data.message[i].type == "关注"){
+      this.data.dot2 = true
+      this.setData({
+        dot2:true
+      })
+    }
+    if(this.data.message[i].status==0 && !this.data.dot3 &&this.data.message[i].type == "点赞"){
+      this.data.dot3 = true
+      this.setData({
+        dot3:true
+      })
+    }
+  }
+},
+doc:function(event){
+ // console.log(event.detail.index)
+  if(event.detail.index == 0){
+    this.data.dot1 =false
+      this.setData({
+        dot1:false
+      })
+  }
+  if(event.detail.index == 1){
+    this.data.dot2 = false
+      this.setData({
+        dot2:false
+      })
+  }
+  if(event.detail.index == 2){
+    this.data.dot3 = false
+      this.setData({
+        dot3:false
+      })
   }
 
-
+}
   
   
 })

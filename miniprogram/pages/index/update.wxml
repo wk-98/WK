@@ -1,31 +1,25 @@
 <!--miniprogram/pages/index/update.wxml-->
 
-<!-- 用户 openid头像 -->
 
-  <view class="userinfo">
-  <view class="userinfo-avatar">
-    <open-data  type="userAvatarUrl"></open-data>
-  </view>
-</view>
-<text>\n</text>
-<text>\n</text>
 
-<form bindsubmit="Onsubmit">
+  
+  <view class="flex solid-bottom padding justify-between">
+    <view class="cu-avatar lg round margin-left lg" style="background-image:url({{avatarUrl}});"></view>
+    <button wx:if="{{value}}" class="cu-btn round bg-blue margin-tb-sm  flex "  bindtap="Onsubmit" >发布</button>
+  <button wx:if="{{!value}}" class="cu-btn round line-blue margin-tb-sm " bindtap="nothing">发布</button>
+    </view>
 
-<!--<view class='text_box'>
-    <textarea fixed='true' contenteditable="true" contenteditable="true" auto-height="true" class='weui-textarea' 
-    model:value="{{value}}" bindinput="bindTextAreaChange" placeholder='Mood at the moment' placeholder-style='font-size:30rpx;' maxlength='50' style='background-color: white'></textarea>
-  </view>-->
+
+
+
   <view class="cu-form-group margin-top">
 		<textarea fixed='true' contenteditable="true" contenteditable="true" auto-height="true" maxlength="-1"  model:value="{{value}}" bindinput="bindTextAreaChange" placeholder='Mood at the moment' ></textarea>
 	</view>
   <van-uploader file-list="{{ fileList }}" max-count="3" deletable="{{ true }}"  bind:after-read="afterRead" bind:delete="Ondelete"/>
-  <!--
-    <button class="button" size="mini" open-type="getUserInfo" bindgetuserinfo="Onsubmit" >上传</button>
-  -->
-  <button class="button" size="mini" bindtap="Onsubmit">发布</button>
 
-</form>
+ 
+
+
 
 
 

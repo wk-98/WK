@@ -11,6 +11,7 @@ App({
   flag2:false, //标志评论事件，首页自动刷新
   flag3:false,  //标志小红点的显示
   logged:false, //判断登录授权
+  
  
   
   onLaunch: function () {
@@ -50,12 +51,13 @@ App({
                           // 监听数据库消息
                           const db = wx.cloud.database()
                           console.log("开始监听")
-                          db.collection('message').where({
+                           db.collection('message').where({
                             B_openid : this1.globalData.openid,
                             // status:0
                           }).watch({
                               onChange: snapshot=> {
                               //snapshot.docChanges即是返回的数据库信息，以数组的形式返回。
+                              
                                 console.log('docs\'s changed events11', snapshot.docChanges)
                                 if(snapshot.docChanges.length != 0){
                                   for(let i = 0; i < snapshot.docChanges.length; i++){
@@ -95,7 +97,7 @@ App({
 
 
   onHide:function(){
-    watcher.close()
+    
   }
 
 })
