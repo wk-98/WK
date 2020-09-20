@@ -2,17 +2,24 @@
 <!--pages/todoinfo/todoinfo.wxml-->
 
 
-
- <view ><!--这是轮播图-->
+<!--这是轮播图   有照片时加载，无照片时放默认照片-->
+ <view wx:if="{{task.fileList.length!=0}}">
       <swiper indicator-dots="true"  >
-        <block wx:for="{{task.fileList}}" wx:key="unique">
-          <swiper-item>
+        <block  wx:for="{{task.fileList}}" wx:key="unique">
+          <swiper-item >
              <image src="{{item.name}}"></image>
           </swiper-item>
         </block>
       </swiper>
-    </view><!--这是轮播图-->
-
+    </view>
+    <view wx:if="{{task.fileList.length==0}}">
+      <swiper indicator-dots="true"  >  
+          <swiper-item >
+             <image src="/image/nopicture.png"></image>
+          </swiper-item>
+      </swiper>
+    </view>
+<!--这是轮播图-->
    
 
  
@@ -21,6 +28,13 @@
       <text class="cuIcon-titles text-green"></text>
       <text class="text-xl text-bold">动态</text>
     </view>
+    <!--点赞按钮-->
+<view style="float:right;margin-right:13.5px" bindtap="dianzan" wx:if="{{flag == 1 && signal != 2}}">
+<van-icon name="/image/dianzan.png" size="26px"  />
+</view>
+<view style="float:right;margin-right:13.5px" bindtap="cancledianzan" wx:if="{{flag == 2 && signal != 2}}">
+<van-icon name="/image/dianzan(1).png" size="26px" />
+</view><!--点赞按钮-->
   </view>
 
 <view class="cu-list menu-avatar comment solids-top " style="height:'100rem'">
@@ -34,7 +48,7 @@
             <view class="text-gray text-df time_size"> {{task.date}}</view>
 
 
-<view>           
+        
 <!--这是关注-->
 <view style="float:right" bindtap="concern" wx:if="{{signal == 1}}">
 <van-icon  name="{{icon}}" size="23px" color="{{icon_color}}"/>
@@ -45,14 +59,6 @@
 <!--这是关注-->
 
 
-<!--点赞按钮-->
-<view style="float:right" bindtap="dianzan" wx:if="{{flag == 1 && signal != 2}}">
-<van-icon name="/image/dianzan.png" size="23px" />
-</view>
-<view style="float:right" bindtap="cancledianzan" wx:if="{{flag == 2 && signal != 2}}">
-<van-icon name="/image/dianzan(1).png" size="23px" />
-</view><!--点赞按钮-->
-</view> 
 
 <!--删除按钮-->
 <view style="float:right" bindtap="delete" wx:if="{{signal == 2}}">
@@ -77,9 +83,9 @@
 
 
 <!--这是评论-->
-<view class="comment-outline">
+<view class="comment-outline" wx:if="{{com[0].comment_array.length != 0}}">
 <block wx:for="{{com[0].comment_array}}"  >
-<view class="cu-list menu-avatar comment solids-top">
+<view  class="cu-list menu-avatar comment solids-top">
 <view class="cu-item">
         <view class="cu-avatar round" style="background-image:url({{item.userInfo1.avatarUrl}});"></view>
         <view class="content">
@@ -96,8 +102,11 @@
 </view>
 </block>
 </view>
-
-
+<view class="comment-outline" wx:if="{{com == 0 ||com[0].comment_array.length == 0}}">
+ <view class="flex solid-bottom padding justify-center">
+  <text class="text-xl  pingluqu_size ">快来留下你的评论吧</text>
+    </view>
+</view>
 
 
 <view class="comment_under">
@@ -108,7 +117,6 @@
   <!--用于测试双向数据绑定的按钮-->
   <button class="cu-btn bg-blue shadow-blur" bindtap='Comment_btnClick'>评论</button>
   </view>
-
 </view>
 
 

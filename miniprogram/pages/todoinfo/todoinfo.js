@@ -62,6 +62,7 @@ Page({
       this.setData({
         com:res.data
       })
+      console.log("com2",this.data.com)
       // app.flag2 = true
       // this.Bnum(3)
       // this.message('评论')
@@ -108,7 +109,7 @@ Page({
         this.setData({
           com:res.data
         })
-        
+        console.log("com",this.data.com)
       }),
      
       wx.getSetting({
